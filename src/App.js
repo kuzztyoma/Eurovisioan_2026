@@ -25,13 +25,13 @@ const initialCountries = [
 export default function EurovisionScoreboard() {
   const exportRef = useRef(null);
   const [countries, setCountries] = useState(() => {
-    const saved = localStorage.getItem("eurovision-scores-2026-v12");
+    const saved = localStorage.getItem("eurovision-scores-2026-v13");
     return saved ? JSON.parse(saved) : initialCountries;
   });
   const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("eurovision-scores-2026-v12", JSON.stringify(countries));
+    localStorage.setItem("eurovision-scores-2026-v13", JSON.stringify(countries));
   }, [countries]);
 
   const toggleScore = (targetId, clickedPoints) => {
@@ -51,7 +51,7 @@ export default function EurovisionScoreboard() {
   const resetScores = () => {
     if (window.confirm("Reset all votes?")) {
       setCountries(initialCountries);
-      localStorage.removeItem("eurovision-scores-2026-v12");
+      localStorage.removeItem("eurovision-scores-2026-v13");
     }
   };
 
@@ -86,7 +86,7 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#6366f1]/15 via-slate-50 to-[#d8b4fe]/15 text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР ( Stories 9:16 — Идеальная верстка без фона плашки ) */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР ( Stories 9:16 ) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div ref={exportRef} className="w-[1080px] h-[1920px] bg-[#f3f4f6] pt-40 pb-40 px-16 flex flex-col items-center justify-between">
           <header className="text-center flex flex-col items-center w-full mb-10">
@@ -129,7 +129,7 @@ export default function EurovisionScoreboard() {
         </div>
       )}
 
-      {/* 3. ОСНОВНОЙ СПИСОК ( Исправленные поля заметок ) */}
+      {/* 3. ОСНОВНОЙ СПИСОК ( Mobile Optimized Editorial UI ) */}
       <div className="w-full max-w-5xl p-4 md:p-8 flex flex-col relative z-10">
         <header className="mb-12 text-center flex flex-col items-center">
           <img src={logoUrl} crossOrigin="anonymous" className="h-20 md:h-28 mb-4 object-contain" alt="" />
@@ -137,7 +137,7 @@ export default function EurovisionScoreboard() {
           <p className="text-gray-500 text-sm font-bold tracking-widest uppercase opacity-60">12 MAY 2026, VIENNA</p>
         </header>
 
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-6">
           {sorted.map((c, i) => (
             <React.Fragment key={c.id}>
               {votingStarted && i === 10 && (
@@ -147,45 +147,75 @@ export default function EurovisionScoreboard() {
                   <div className="flex-1 h-px bg-gray-300/50"></div>
                 </div>
               )}
-              <motion.div layout className={`group bg-white/50 backdrop-blur-2xl border-2 p-3 md:p-5 flex flex-col md:flex-row items-stretch md:items-center justify-between shadow-xl rounded-[32px] gap-4 transition-all ${c.score > 0 ? "border-[#002FA7]/30 ring-8 ring-[#002FA7]/5" : "border-white/80"}`}>
-                <div className="flex items-center gap-3 md:gap-6">
-                  <div className="w-8 text-center text-xl font-bold text-gray-300 italic">{i + 1}</div>
-                  <div className="text-4xl flex items-center justify-center bg-white/60 w-14 h-14 rounded-full shadow-inner border border-white/40">{c.flag}</div>
-                  <img src={c.image} alt="" className="w-24 h-14 rounded-2xl object-cover bg-gray-100 shadow-sm border border-white/20" />
-                  <div className="flex-1 text-left min-w-0">
-                    <h2 className="text-lg md:text-xl font-black uppercase tracking-tight leading-none mb-1 truncate">{c.name}</h2>
-                    <p className="text-gray-500 text-xs md:text-sm italic opacity-80 truncate">{c.song}</p>
-                    
-                    {/* Исправленное поле для заметок: высокая контрастность */}
-                    <textarea 
-                      value={c.note || ""} 
-                      onChange={(e) => updateNote(c.id, e.target.value)} 
-                      placeholder="Add note..." 
-                      className="w-full mt-2 p-2 text-[10px] bg-white/70 border border-slate-200 rounded-lg text-gray-800 focus:bg-white/90 focus:border-[#002FA7]/30 outline-none resize-none placeholder:text-gray-500 transition-all shadow-inner" 
-                      rows="1" 
-                    />
+              <motion.div layout className={`group bg-white/50 backdrop-blur-3xl border p-4 md:p-5 flex flex-col items-center justify-between shadow-2xl rounded-[38px] gap-5 transition-all ${c.score > 0 ? "border-[#002FA7]/30 ring-8 ring-[#002FA7]/5" : "border-white/80"}`}>
+                
+                {/* ВЕРХНЯЯ ЧАСТЬ КАРТОЧКИ */}
+                <div className="flex flex-col md:flex-row items-center md:items-center gap-4 md:gap-8 w-full">
+                  
+                  {/* Ранг и Флаг */}
+                  <div className="flex items-center gap-4">
+                    <div className="w-8 text-center text-2xl font-black text-gray-300 italic">{i + 1}</div>
+                    <div className="text-4xl flex items-center justify-center bg-white/70 w-16 h-16 rounded-full shadow-inner border border-white/50">{c.flag}</div>
                   </div>
+
+                  {/* Информация о стране */}
+                  <div className="flex-1 text-center md:text-left min-w-0">
+                    <h2 className="text-2xl md:text-2xl font-black uppercase tracking-tighter leading-tight mb-1">{c.name}</h2>
+                    
+                    {/* Контент под заголовком: Песня + Превью */}
+                    <div className="flex flex-col md:flex-row items-center gap-4 mt-2">
+                       <img src={c.image} alt="" className="w-32 md:w-24 h-20 md:h-14 rounded-2xl object-cover bg-gray-100 shadow-md border-2 border-white/50" />
+                       <div className="flex flex-col text-center md:text-left">
+                          <p className="text-gray-600 text-sm md:text-base italic font-medium leading-snug">{c.song}</p>
+                          <textarea 
+                            value={c.note || ""} 
+                            onChange={(e) => updateNote(c.id, e.target.value)} 
+                            placeholder="Add your note..." 
+                            className="w-full mt-3 p-3 text-xs bg-white/60 border border-slate-200 rounded-2xl text-gray-800 focus:bg-white/90 outline-none resize-none placeholder:text-gray-400 shadow-inner" 
+                            rows="1" 
+                          />
+                       </div>
+                    </div>
+                  </div>
+
+                  {/* Балл для Десктопа */}
+                  <div className="hidden md:block w-20 text-right text-5xl font-black text-[#002FA7] drop-shadow-sm">{c.score > 0 ? c.score : "-"}</div>
                 </div>
                 
-                <div className="flex items-center gap-4">
-                  <div className="grid grid-cols-5 gap-1.5">
+                {/* БЛОК КНОПОК (Центрирован на мобилках) */}
+                <div className="w-full flex flex-col items-center md:items-end gap-3">
+                  <div className="grid grid-cols-5 gap-2 w-full max-w-xs md:max-w-none md:w-auto">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 10, 12].map((p) => {
                       const mine = c.score === p;
                       const taken = countries.some((other) => other.id !== c.id && other.score === p);
                       return (
-                        <button key={p} onClick={() => toggleScore(c.id, p)} className={`h-10 w-10 flex items-center justify-center rounded-xl text-xs font-black transition-all border ${mine ? "bg-[#002FA7] text-white border-transparent scale-110 shadow-lg shadow-blue-200" : taken ? "bg-gray-100/40 text-gray-300 border-gray-100/50 cursor-not-allowed" : "bg-white/80 text-gray-700 border-slate-200 hover:bg-white hover:border-[#002FA7]/30"}`}>{p}</button>
+                        <button 
+                          key={p} 
+                          onClick={() => toggleScore(c.id, p)} 
+                          className={`h-11 md:h-10 w-full md:w-10 flex items-center justify-center rounded-2xl text-sm font-black transition-all border ${
+                            mine 
+                              ? "bg-[#002FA7] text-white border-transparent scale-110 shadow-lg shadow-blue-200" 
+                              : taken 
+                                ? "bg-gray-100/40 text-gray-300 border-gray-100/50" 
+                                : "bg-white/80 text-gray-700 border-slate-200 hover:bg-white hover:border-[#002FA7]/30"
+                          }`}
+                        >
+                          {p}
+                        </button>
                       );
                     })}
                   </div>
-                  <div className="hidden md:block w-16 text-right text-4xl font-black text-[#002FA7] drop-shadow-sm">{c.score > 0 ? c.score : "-"}</div>
+                  {/* Балл для Мобилок */}
+                  <div className="md:hidden text-4xl font-black text-[#002FA7] mt-1">{c.score > 0 ? c.score : ""}</div>
                 </div>
+
               </motion.div>
             </React.Fragment>
           ))}
         </div>
 
         <footer className="mt-20 mb-8 text-center text-gray-400 text-[10px] font-bold uppercase tracking-[0.3em] opacity-50 relative z-20">
-          Created by <a href="https://www.instagram.com/artkuztom/" target="_blank" rel="noopener noreferrer" className="text-[#002FA7] hover:underline font-bold transition-colors">Artyom Kuzmenko</a>
+          Scoreboard by <a href="https://www.instagram.com/artkuztom/" target="_blank" rel="noopener noreferrer" className="text-[#002FA7] hover:underline font-bold transition-colors">Artyom Kuzmenko</a>
         </footer>
       </div>
     </div>
