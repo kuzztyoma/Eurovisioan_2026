@@ -256,7 +256,7 @@ export default function EurovisionScoreboard() {
       >
         <header className="mb-6 md:mb-8 text-center flex flex-col items-center">
           <img
-            src={logoUrl}
+            src="https://upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png"
             alt="Eurovision 2026"
             crossOrigin="anonymous"
             className="h-16 sm:h-20 md:h-28 mb-3 object-contain"
