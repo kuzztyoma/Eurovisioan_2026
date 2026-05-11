@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import html2canvas from "html2canvas";
 
-// Используем самый стабильный прокси для экспорта
+// Стабильный прокси для логотипа
 const logoUrl = "https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png";
 
 const initialCountries = [
@@ -75,7 +75,7 @@ export default function EurovisionScoreboard() {
       try {
         const canvas = await html2canvas(exportRef.current, {
           scale: 1, 
-          backgroundColor: "#020617",
+          backgroundColor: "#f3f4f6",
           useCORS: true,
           allowTaint: false,
           width: 1080,
@@ -84,14 +84,14 @@ export default function EurovisionScoreboard() {
 
         const link = document.createElement("a");
         link.href = canvas.toDataURL("image/png");
-        link.download = "ESC_Editorial_Top.png";
+        link.download = "My_Eurovision_Top_Stories.png";
         link.click();
       } catch (e) {
         alert("Error saving image.");
       } finally {
         setIsExporting(false);
       }
-    }, 1000);
+    }, 800);
   };
 
   const sorted = [...countries].sort((a, b) => b.score - a.score);
@@ -101,53 +101,55 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[#f3f4f6] text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center">
       
-      {/* 1. НОВЫЙ ЭКСПОРТНЫЙ КОНТЕЙНЕР (EDITORIAL NIGHT STYLE) */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР ( Stories 9:16 — Исправленная центровка и размер баллов ) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div 
           ref={exportRef} 
-          className="w-[1080px] h-[1920px] bg-[#020617] pt-32 pb-32 px-16 flex flex-col items-start justify-between relative overflow-hidden text-white"
+          className="w-[1080px] h-[1920px] bg-[#f3f4f6] pt-32 pb-32 px-14 flex flex-col items-center justify-between"
         >
-          {/* Фоновый текст (Элемент дизайна) */}
-          <div className="absolute top-40 right-[-150px] rotate-90 opacity-10 text-[200px] font-black tracking-tighter whitespace-nowrap pointer-events-none">
-            EUROVISION 2026
-          </div>
-
-          <header className="w-full flex flex-col items-start mb-12 relative z-10">
-            <img src={logoUrl} crossOrigin="anonymous" className="h-24 mb-10 object-contain brightness-0 invert" alt="" />
-            <h1 className="text-9xl font-black tracking-tighter leading-none mb-4 italic italic uppercase">MY TOP 10</h1>
-            <div className="h-2 w-48 bg-[#002FA7]"></div>
-            <p className="mt-6 text-2xl font-bold tracking-[0.5em] text-blue-400 uppercase">12 May 2026 // Vienna</p>
+          {/* Header */}
+          <header className="text-center flex flex-col items-center w-full mb-8">
+            <img src={logoUrl} crossOrigin="anonymous" className="h-28 mb-6 object-contain" alt="" />
+            <h1 className="text-7xl font-black text-gray-900 mb-1 tracking-tighter italic uppercase leading-none">Semi-Final 1</h1>
+            <p className="text-gray-500 text-xl font-bold tracking-[0.3em] uppercase opacity-60 mb-8 font-sans">12 MAY 2026 // VIENNA</p>
+            {/* Исправлено: текст без фона */}
+            <div className="text-[#002FA7] text-5xl font-black uppercase tracking-widest italic">
+              My Top 10
+            </div>
           </header>
 
-          <div className="flex flex-col gap-1 w-full relative z-10">
+          {/* Список (Высота увеличена до h-[115px] для свободы элементов) */}
+          <div className="flex flex-col gap-4 w-full px-2 flex-grow justify-center">
             {sorted.slice(0, 10).map((c, i) => (
-              <div key={c.id} className="h-[125px] flex items-center justify-between border-l-8 border-[#002FA7] pl-8 mb-2 bg-white/5 backdrop-blur-sm">
-                <div className="flex items-center gap-10">
-                  <span className="text-4xl font-black text-blue-500/50 w-12 italic">{i + 1}</span>
-                  <div className="text-7xl leading-none">{c.flag}</div>
-                  <div className="ml-2 text-left">
-                    <h2 className="text-5xl font-black uppercase tracking-tighter leading-none mb-1">{c.name}</h2>
-                    <p className="text-xl text-slate-400 italic tracking-wide">{c.song}</p>
+              <div key={c.id} className="bg-white px-10 h-[115px] flex items-center justify-between rounded-[40px] border border-gray-100">
+                <div className="flex items-center gap-10 h-full">
+                  <span className="text-4xl font-black text-gray-200 italic w-12 flex items-center justify-center h-full leading-none">{i + 1}</span>
+                  <div className="w-20 h-full flex items-center justify-center text-[65px] leading-none">
+                    {c.flag}
+                  </div>
+                  <div className="ml-3 text-left flex flex-col justify-center h-full">
+                    <h2 className="text-[42px] font-black uppercase tracking-tighter leading-none mb-1">{c.name}</h2>
+                    <p className="text-gray-400 text-2xl italic font-medium leading-none">{c.song}</p>
                   </div>
                 </div>
-                <div className="text-8xl font-black text-white pr-10 tracking-tighter">{c.score}</div>
+                {/* Исправлено: текст меньше (text-6xl), чтобы не вылезать */}
+                <div className="text-6xl font-black text-[#002FA7] flex items-center h-full pr-4 tracking-tighter leading-none">
+                   {c.score}
+                </div>
               </div>
             ))}
           </div>
           
-          <footer className="w-full flex justify-between items-end relative z-10">
-             <div className="text-slate-500 text-lg font-bold tracking-widest uppercase">Semi-Final 1</div>
-             <div className="text-blue-500 text-lg font-black tracking-widest uppercase">@ARTKUZTOM</div>
-          </footer>
+          <div className="h-10 w-full"></div>
         </div>
       </div>
 
-      {/* 2. ПАНЕЛЬ УПРАВЛЕНИЯ (БЕЗ ИЗМЕНЕНИЙ) */}
+      {/* 2. ПАНЕЛЬ УПРАВЛЕНИЯ */}
       {!isExporting && (
         <div className="w-full bg-white border-b py-3 px-3 sm:px-6 flex justify-center gap-2 sm:gap-3 sticky top-0 z-50 shadow-sm">
           {votingStarted ? (
             <>
-              <button onClick={resetScores} className="px-3 sm:px-4 py-2 bg-red-50 text-red-600 rounded-lg text-xs sm:text-sm font-bold border border-red-100 whitespace-nowrap">Reset</button>
+              <button onClick={resetScores} className="px-3 sm:px-4 py-2 bg-red-50 text-red-600 rounded-lg text-xs sm:text-sm font-bold border border-red-100 transition-colors whitespace-nowrap">Reset</button>
               <button
                 onClick={downloadAsImage}
                 disabled={votesCount !== 10}
@@ -155,7 +157,7 @@ export default function EurovisionScoreboard() {
                   votesCount === 10 ? "bg-[#002FA7] text-white shadow-md" : "bg-gray-100 text-gray-400 cursor-not-allowed"
                 }`}
               >
-                Download New Design
+                Download Story Image
               </button>
             </>
           ) : (
@@ -164,7 +166,7 @@ export default function EurovisionScoreboard() {
         </div>
       )}
 
-      {/* 3. ОСНОВНОЙ ИНТЕРФЕЙС (БЕЗ ИЗМЕНЕНИЙ) */}
+      {/* 3. ОСНОВНОЙ СПИСОК САЙТА */}
       <div className="w-full max-w-5xl p-3 sm:p-4 md:p-8 bg-[#f3f4f6] flex flex-col">
         <header className="mb-6 md:mb-8 text-center flex flex-col items-center">
           <img 
@@ -183,7 +185,9 @@ export default function EurovisionScoreboard() {
               {votingStarted && i === 10 && (
                 <div className="w-full py-10 flex items-center gap-4 px-2 font-sans text-center">
                   <div className="flex-1 h-px bg-gray-300"></div>
-                  <span className="text-gray-400 text-[10px] md:text-xs font-black uppercase tracking-[0.3em] whitespace-nowrap shrink-0">Zero Points</span>
+                  <span className="text-gray-400 text-[10px] md:text-xs font-black uppercase tracking-[0.3em] whitespace-nowrap shrink-0">
+                    Zero Points
+                  </span>
                   <div className="flex-1 h-px bg-gray-300"></div>
                 </div>
               )}
@@ -195,7 +199,13 @@ export default function EurovisionScoreboard() {
                   <div className="flex-1 min-w-0 md:w-56 ml-0 md:ml-4">
                     <h2 className="text-base sm:text-lg md:text-xl font-black uppercase pb-1 leading-normal break-words">{c.name}</h2>
                     <p className="text-gray-500 text-[11px] sm:text-xs md:text-sm italic pb-1 leading-normal break-words">{c.song}</p>
-                    <textarea value={c.note || ""} onChange={(e) => updateNote(c.id, e.target.value)} placeholder="Add your note..." className="w-full mt-2 p-1.5 text-[10px] bg-gray-50 border border-transparent border-b-gray-200 rounded text-gray-400 focus:text-gray-700 outline-none resize-none transition-all focus:border-[#002FA7]/30" rows="1" />
+                    <textarea
+                      value={c.note || ""}
+                      onChange={(e) => updateNote(c.id, e.target.value)}
+                      placeholder="Add your note..."
+                      className="w-full mt-2 p-1.5 text-[10px] bg-gray-50 border border-transparent border-b-gray-200 rounded text-gray-400 focus:text-gray-700 outline-none resize-none transition-all focus:border-[#002FA7]/30"
+                      rows="1"
+                    />
                   </div>
                   <div className="md:hidden text-xl sm:text-2xl font-black text-[#002FA7] shrink-0">{c.score > 0 ? c.score : "-"}</div>
                 </div>
