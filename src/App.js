@@ -110,7 +110,7 @@ export default function EurovisionScoreboard() {
           className="w-[1080px] h-[1920px] bg-[#f3f4f6] p-20 flex flex-col justify-between items-center"
         >
           <header className="text-center flex flex-col items-center w-full">
-            <img src={logoUrl} crossOrigin="anonymous" className="h-40 mb-10 object-contain" alt="" />
+            <img src="https://upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.png" crossOrigin="anonymous" className="h-40 mb-10 object-contain" alt="" />
             <h1 className="text-8xl font-black text-gray-900 mb-4 tracking-tighter italic">Semi-Final 1</h1>
             <p className="text-gray-500 text-3xl font-bold tracking-[0.3em] uppercase opacity-60">12 MAY 2026 // VIENNA</p>
           </header>
