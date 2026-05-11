@@ -175,14 +175,15 @@ export default function EurovisionScoreboard() {
             <React.Fragment key={c.id}>
               
               {/* Исправленный разделитель Zero Points */}
-              {votingStarted && i === 10 && (
-                <div className="w-full py-6 flex items-center justify-center relative">
-                  <div className="absolute inset-x-0 top-1/2 h-px bg-gray-300 -translate-y-1/2"></div>
-                  <span className="relative z-10 text-gray-400 text-xs font-bold uppercase tracking-widest bg-[#f3f4f6] px-4 whitespace-nowrap">
-                    Zero Points
-                  </span>
-                </div>
-              )}
+{votingStarted && i === 10 && (
+  <div className="w-full py-10 flex items-center gap-4 px-2">
+    <div className="flex-1 h-px bg-gray-300"></div>
+    <span className="text-gray-400 text-[10px] md:text-xs font-black uppercase tracking-[0.3em] whitespace-nowrap shrink-0">
+      Zero Points
+    </span>
+    <div className="flex-1 h-px bg-gray-300"></div>
+  </div>
+)}
 
               <motion.div
                 layout
