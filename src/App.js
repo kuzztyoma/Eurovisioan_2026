@@ -5,7 +5,7 @@ import html2canvas from "html2canvas";
 const logoUrl =
   "https://corsproxy.io/?" +
   encodeURIComponent(
-    "https://upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png");
+    "https://upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg");
 
 const initialCountries = [
   {
@@ -256,7 +256,7 @@ export default function EurovisionScoreboard() {
       >
         <header className="mb-6 md:mb-8 text-center flex flex-col items-center">
           <img
-            src="https://upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png"
+            src="https://upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg"
             alt="Eurovision 2026"
             crossOrigin="anonymous"
             className="h-16 sm:h-20 md:h-28 mb-3 object-contain"
