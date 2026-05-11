@@ -162,7 +162,7 @@ export default function EurovisionScoreboard() {
       {/* 3. ОСНОВНОЙ СПИСОК (Для взаимодействия) */}
       <div className="w-full max-w-5xl p-4 md:p-8 flex flex-col">
         <header className="mb-8 text-center flex flex-col items-center">
-          <img src={logoUrl} className="h-20 md:h-28 mb-3 object-contain" alt="ESC 2026" />
+          <img src="https://upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.png" className="h-20 md:h-28 mb-3 object-contain" alt="ESC 2026" />
           <h1 className="text-3xl md:text-5xl font-black text-gray-900 mb-1 leading-normal uppercase">Semi-Final 1</h1>
           <p className="text-gray-500 text-sm italic font-medium mb-4">12 MAY 2026, VIENNA</p>
         </header>
