@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import html2canvas from "html2canvas";
 
-// Используем максимально стабильную ссылку для логотипа
+// Стабильный прокси для логотипа
 const logoUrl = "https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png";
 
 const initialCountries = [
@@ -71,7 +71,6 @@ export default function EurovisionScoreboard() {
     if (!exportRef.current || votesCount !== 10) return;
     setIsExporting(true);
 
-    // Даем браузеру больше времени на отрисовку внешних ресурсов
     setTimeout(async () => {
       try {
         const canvas = await html2canvas(exportRef.current, {
@@ -80,8 +79,7 @@ export default function EurovisionScoreboard() {
           useCORS: true,
           allowTaint: false,
           width: 1080,
-          height: 1920,
-          logging: false
+          height: 1920
         });
 
         const link = document.createElement("a");
@@ -93,7 +91,7 @@ export default function EurovisionScoreboard() {
       } finally {
         setIsExporting(false);
       }
-    }, 1000);
+    }, 800);
   };
 
   const sorted = [...countries].sort((a, b) => b.score - a.score);
@@ -101,19 +99,20 @@ export default function EurovisionScoreboard() {
   const votesCount = countries.filter((c) => c.score > 0).length;
 
   return (
-    <div className="min-h-screen bg-[#f3f4f6] text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center">
+    <div className="min-h-screen bg-[#f3f4f6] text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center transition-colors">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР ( Stories 9:16 ) */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (С фиксами центровки) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div 
           ref={exportRef} 
-          className="w-[1080px] h-[1920px] bg-[#f3f4f6] p-12 pt-20 flex flex-col items-center"
+          className="w-[1080px] h-[1920px] bg-[#f3f4f6] p-12 flex flex-col items-center"
         >
-          <header className="text-center flex flex-col items-center w-full mb-10">
+          <header className="text-center flex flex-col items-center w-full mb-8">
             <img src={logoUrl} crossOrigin="anonymous" className="h-32 mb-6 object-contain" alt="Logo" />
-            <h1 className="text-8xl font-black text-gray-900 mb-2 tracking-tighter italic uppercase leading-none">Semi-Final 1</h1>
-            <p className="text-gray-500 text-2xl font-bold tracking-[0.3em] uppercase opacity-60 mb-10 font-sans">12 MAY 2026 // VIENNA</p>
-            <div className="bg-[#002FA7] text-white px-12 py-4 rounded-full text-4xl font-black uppercase tracking-widest italic shadow-xl">
+            <h1 className="text-8xl font-black text-gray-900 mb-2 tracking-tighter italic uppercase leading-tight">Semi-Final 1</h1>
+            <p className="text-gray-500 text-2xl font-bold tracking-[0.3em] uppercase opacity-60 mb-8">12 MAY 2026 // VIENNA</p>
+            {/* Исправленная плашка: жесткая высота для центровки */}
+            <div className="bg-[#002FA7] text-white px-12 h-20 flex items-center justify-center rounded-full text-4xl font-black uppercase tracking-widest italic shadow-xl">
               My Top 10
             </div>
           </header>
@@ -122,24 +121,18 @@ export default function EurovisionScoreboard() {
             {sorted.slice(0, 10).map((c, i) => (
               <div key={c.id} className="bg-white px-10 h-32 flex items-center justify-between rounded-[45px] border border-gray-200">
                 <div className="flex items-center gap-10 h-full">
-                  <span className="text-5xl font-black text-gray-200 italic w-14 flex items-center justify-center leading-none">
-                    {i + 1}
-                  </span>
-                  
-                  {/* Контейнер флага с принудительной центровкой */}
+                  <span className="text-5xl font-black text-gray-200 italic w-14 flex items-center justify-center leading-none">{i + 1}</span>
                   <div className="w-24 h-full flex items-center justify-center text-[80px] leading-none -mt-4">
                     {c.flag}
                   </div>
-
                   <div className="ml-4 text-left flex flex-col justify-center h-full">
                     <h2 className="text-[52px] font-black uppercase tracking-tighter leading-none mb-2">{c.name}</h2>
                     <p className="text-gray-400 text-3xl italic font-medium leading-none">{c.song}</p>
                   </div>
                 </div>
-
-                {/* Контейнер баллов с принудительной центровкой */}
-                <div className="h-full flex items-center pr-6">
-                   <span className="text-8xl font-black text-[#002FA7] leading-none">{c.score}</span>
+                {/* Исправленные баллы: убрал leading-none и добавил микро-смещение */}
+                <div className="h-full flex items-center justify-center pr-6">
+                   <span className="text-8xl font-black text-[#002FA7] leading-tight -mt-3">{c.score}</span>
                 </div>
               </div>
             ))}
@@ -149,7 +142,7 @@ export default function EurovisionScoreboard() {
         </div>
       </div>
 
-      {/* 2. ВИДИМАЯ ПАНЕЛЬ */}
+      {/* 2. ПАНЕЛЬ УПРАВЛЕНИЯ */}
       {!isExporting && (
         <div className="w-full bg-white border-b py-3 px-3 sm:px-6 flex justify-center gap-2 sm:gap-3 sticky top-0 z-50 shadow-sm">
           {votingStarted ? (
@@ -178,9 +171,9 @@ export default function EurovisionScoreboard() {
             src={logoUrl} 
             crossOrigin="anonymous" 
             className="h-16 sm:h-20 md:h-28 mb-3 object-contain" 
-            alt="ESC Logo" 
+            alt="Logo" 
           />
-          <h1 className="text-3xl md:text-5xl font-black text-gray-900 mb-1 leading-normal uppercase tracking-tighter italic font-sans">Semi-Final 1</h1>
+          <h1 className="text-3xl md:text-5xl font-black text-gray-900 mb-1 leading-normal uppercase tracking-tighter italic">Semi-Final 1</h1>
           <p className="text-gray-500 text-sm italic font-medium mb-4">12 MAY 2026, VIENNA</p>
         </header>
 
@@ -202,7 +195,7 @@ export default function EurovisionScoreboard() {
                   <div className="text-2xl sm:text-3xl md:text-4xl flex items-center justify-center shrink-0 leading-normal rounded-full bg-gray-50 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 shadow-inner">{c.flag}</div>
                   <img src={c.image} alt="" className="w-14 h-9 sm:w-16 sm:h-10 md:w-24 md:h-14 rounded-md object-cover bg-gray-100 shrink-0 shadow-sm" />
                   <div className="flex-1 min-w-0 md:w-56 ml-0 md:ml-4">
-                    <h2 className="text-base sm:text-lg md:text-xl font-black uppercase pb-1 leading-normal break-words font-sans">{c.name}</h2>
+                    <h2 className="text-base sm:text-lg md:text-xl font-black uppercase pb-1 leading-normal break-words">{c.name}</h2>
                     <p className="text-gray-500 text-[11px] sm:text-xs md:text-sm italic pb-1 leading-normal break-words">{c.song}</p>
                     <textarea
                       value={c.note || ""}
