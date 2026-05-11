@@ -103,36 +103,34 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[#f3f4f6] text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (Оптимизирована центровка флагов) */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (Оптимизирована центровка флагов и баллов) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div 
           ref={exportRef} 
           className="w-[1080px] h-[1920px] bg-[#f3f4f6] p-12 flex flex-col justify-between items-center"
         >
           <header className="text-center flex flex-col items-center w-full">
-            <img 
-              src="https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png" 
-              crossOrigin="anonymous" 
-              className="h-32 mb-6 object-contain" 
-              alt="" 
-            />
+            <img src={logoUrl} crossOrigin="anonymous" className="h-32 mb-6 object-contain" alt="" />
             <h1 className="text-7xl font-black text-gray-900 mb-2 tracking-tighter italic uppercase">Semi-Final 1</h1>
             <p className="text-gray-500 text-xl font-bold tracking-[0.3em] uppercase opacity-60">12 MAY 2026 // VIENNA</p>
           </header>
 
-          <div className="flex flex-col gap-3 w-full px-4">
+          <div className="flex flex-col gap-4 w-full px-4">
             {sorted.slice(0, 10).map((c, i) => (
-              <div key={c.id} className="bg-white p-5 flex items-center justify-between rounded-[30px] border border-gray-100">
-                <div className="flex items-center gap-6">
-                  <span className="text-3xl font-black text-gray-300 italic w-12 flex items-center justify-center">{i + 1}</span>
-                  {/* Исправленная центровка флага */}
-                  <span className="text-7xl flex items-center -mt-2">{c.flag}</span>
-                  <div className="ml-2 text-left flex flex-col justify-center">
-                    <h2 className="text-4xl font-black uppercase tracking-tighter leading-none">{c.name}</h2>
-                    <p className="text-gray-400 text-lg italic font-medium mt-1">{c.song}</p>
+              <div key={c.id} className="bg-white px-8 h-32 flex items-center justify-between rounded-[40px] border border-gray-100 shadow-sm">
+                <div className="flex items-center gap-8 h-full">
+                  <span className="text-4xl font-black text-gray-200 italic w-12 flex items-center justify-center">{i + 1}</span>
+                  {/* Флаг с оптической центровкой */}
+                  <div className="text-[72px] flex items-center justify-center leading-none -mt-4">
+                    {c.flag}
+                  </div>
+                  <div className="ml-2 text-left flex flex-col justify-center h-full">
+                    <h2 className="text-[44px] font-black uppercase tracking-tighter leading-none">{c.name}</h2>
+                    <p className="text-gray-400 text-2xl italic font-medium mt-2 leading-none">{c.song}</p>
                   </div>
                 </div>
-                <div className="text-6xl font-black text-[#002FA7] pr-4">{c.score}</div>
+                {/* Баллы с фиксацией центра */}
+                <div className="text-7xl font-black text-[#002FA7] flex items-center h-full pr-4">{c.score}</div>
               </div>
             ))}
           </div>
@@ -145,7 +143,7 @@ export default function EurovisionScoreboard() {
         </div>
       </div>
 
-      {/* 2. ВИДИМАЯ ПАНЕЛЬ (Без изменений) */}
+      {/* 2. ВИДИМАЯ ПАНЕЛЬ */}
       {!isExporting && (
         <div className="w-full bg-white border-b py-3 px-3 sm:px-6 flex justify-center gap-2 sm:gap-3 sticky top-0 z-50 shadow-sm">
           {votingStarted ? (
@@ -167,7 +165,7 @@ export default function EurovisionScoreboard() {
         </div>
       )}
 
-      {/* 3. ОСНОВНОЙ ИНТЕРФЕЙС (Без изменений) */}
+      {/* 3. ОСНОВНОЙ ИНТЕРФЕЙС */}
       <div className="w-full max-w-5xl p-3 sm:p-4 md:p-8 bg-[#f3f4f6] flex flex-col">
         <header className="mb-6 md:mb-8 text-center flex flex-col items-center">
           <img 
@@ -176,7 +174,7 @@ export default function EurovisionScoreboard() {
             className="h-16 sm:h-20 md:h-28 mb-3 object-contain" 
             alt="Eurovision 2026" 
           />
-          <h1 className="text-3xl md:text-5xl font-black text-gray-900 mb-1 leading-normal uppercase">Semi-Final 1</h1>
+          <h1 className="text-3xl md:text-5xl font-black text-gray-900 mb-1 leading-normal uppercase tracking-tighter italic">Semi-Final 1</h1>
           <p className="text-gray-500 text-sm italic font-medium mb-4">12 MAY 2026, VIENNA</p>
         </header>
 
@@ -227,7 +225,7 @@ export default function EurovisionScoreboard() {
           ))}
         </div>
 
-        <footer className="mt-12 mb-4 text-center text-gray-400 text-xs font-medium">
+        <footer className="mt-12 mb-4 text-center text-gray-400 text-xs font-medium uppercase tracking-[0.2em] opacity-60">
           Scoreboard created by <a href="https://www.instagram.com/artkuztom/" target="_blank" rel="noopener noreferrer" className="text-[#002FA7] hover:underline font-bold transition-colors">Artyom Kuzmenko</a>
         </footer>
       </div>
