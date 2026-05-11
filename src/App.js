@@ -103,7 +103,7 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[#f3f4f6] text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (Оптимизирована центровка флагов и баллов) */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (Без теней для исключения артефактов) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div 
           ref={exportRef} 
@@ -117,10 +117,9 @@ export default function EurovisionScoreboard() {
 
           <div className="flex flex-col gap-4 w-full px-4">
             {sorted.slice(0, 10).map((c, i) => (
-              <div key={c.id} className="bg-white px-8 h-32 flex items-center justify-between rounded-[40px] border border-gray-100 shadow-sm">
+              <div key={c.id} className="bg-white px-8 h-32 flex items-center justify-between rounded-[40px] border border-gray-200">
                 <div className="flex items-center gap-8 h-full">
                   <span className="text-4xl font-black text-gray-200 italic w-12 flex items-center justify-center">{i + 1}</span>
-                  {/* Флаг с оптической центровкой */}
                   <div className="text-[72px] flex items-center justify-center leading-none -mt-4">
                     {c.flag}
                   </div>
@@ -129,7 +128,6 @@ export default function EurovisionScoreboard() {
                     <p className="text-gray-400 text-2xl italic font-medium mt-2 leading-none">{c.song}</p>
                   </div>
                 </div>
-                {/* Баллы с фиксацией центра */}
                 <div className="text-7xl font-black text-[#002FA7] flex items-center h-full pr-4">{c.score}</div>
               </div>
             ))}
