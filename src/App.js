@@ -103,14 +103,13 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[#f3f4f6] text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (Оптимизирована плотность, чтобы всё влезло) */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (Оптимизирована центровка флагов) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div 
           ref={exportRef} 
           className="w-[1080px] h-[1920px] bg-[#f3f4f6] p-12 flex flex-col justify-between items-center"
         >
           <header className="text-center flex flex-col items-center w-full">
-            {/* Для экспорта используем weserv, так как corsproxy.io на твоем скрине не прогрузил лого */}
             <img 
               src="https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png" 
               crossOrigin="anonymous" 
@@ -124,15 +123,16 @@ export default function EurovisionScoreboard() {
           <div className="flex flex-col gap-3 w-full px-4">
             {sorted.slice(0, 10).map((c, i) => (
               <div key={c.id} className="bg-white p-5 flex items-center justify-between rounded-[30px] border border-gray-100">
-                <div className="flex items-center gap-8">
-                  <span className="text-3xl font-black text-gray-300 italic w-12">{i + 1}</span>
-                  <span className="text-7xl leading-none">{c.flag}</span>
-                  <div className="ml-2 text-left">
-                    <h2 className="text-3xl font-black uppercase tracking-tight leading-tight">{c.name}</h2>
-                    <p className="text-gray-400 text-lg italic font-medium">{c.song}</p>
+                <div className="flex items-center gap-6">
+                  <span className="text-3xl font-black text-gray-300 italic w-12 flex items-center justify-center">{i + 1}</span>
+                  {/* Исправленная центровка флага */}
+                  <span className="text-7xl flex items-center -mt-2">{c.flag}</span>
+                  <div className="ml-2 text-left flex flex-col justify-center">
+                    <h2 className="text-4xl font-black uppercase tracking-tighter leading-none">{c.name}</h2>
+                    <p className="text-gray-400 text-lg italic font-medium mt-1">{c.song}</p>
                   </div>
                 </div>
-                <div className="text-5xl font-black text-[#002FA7] pr-4">{c.score}</div>
+                <div className="text-6xl font-black text-[#002FA7] pr-4">{c.score}</div>
               </div>
             ))}
           </div>
@@ -145,7 +145,7 @@ export default function EurovisionScoreboard() {
         </div>
       </div>
 
-      {/* 2. ВИДИМАЯ ПАНЕЛЬ (Тут без изменений) */}
+      {/* 2. ВИДИМАЯ ПАНЕЛЬ (Без изменений) */}
       {!isExporting && (
         <div className="w-full bg-white border-b py-3 px-3 sm:px-6 flex justify-center gap-2 sm:gap-3 sticky top-0 z-50 shadow-sm">
           {votingStarted ? (
@@ -167,7 +167,7 @@ export default function EurovisionScoreboard() {
         </div>
       )}
 
-      {/* 3. ОСНОВНОЙ ИНТЕРФЕЙС (Тут без изменений) */}
+      {/* 3. ОСНОВНОЙ ИНТЕРФЕЙС (Без изменений) */}
       <div className="w-full max-w-5xl p-3 sm:p-4 md:p-8 bg-[#f3f4f6] flex flex-col">
         <header className="mb-6 md:mb-8 text-center flex flex-col items-center">
           <img 
@@ -183,7 +183,6 @@ export default function EurovisionScoreboard() {
         <div className="flex flex-col gap-3 flex-grow text-left">
           {sorted.map((c, i) => (
             <React.Fragment key={c.id}>
-              
               {votingStarted && i === 10 && (
                 <div className="w-full py-10 flex items-center gap-4 px-2">
                   <div className="flex-1 h-px bg-gray-300"></div>
@@ -193,7 +192,6 @@ export default function EurovisionScoreboard() {
                   <div className="flex-1 h-px bg-gray-300"></div>
                 </div>
               )}
-
               <motion.div layout className={`bg-white border-b p-2.5 sm:p-3 md:pl-5 md:pr-6 flex flex-col md:flex-row items-stretch md:items-center justify-between shadow-sm rounded-lg gap-3 ${c.score > 0 ? "border-[#002FA7]/40 ring-1 ring-[#002FA7]/10" : "border-gray-200"}`}>
                 <div className="flex items-start sm:items-center md:items-center gap-2 sm:gap-4 md:gap-6 w-full md:w-auto">
                   <div className="w-5 sm:w-6 text-center text-base sm:text-lg md:text-xl font-bold text-gray-400 italic shrink-0">{i + 1}</div>
@@ -212,7 +210,6 @@ export default function EurovisionScoreboard() {
                   </div>
                   <div className="md:hidden text-xl sm:text-2xl font-black text-[#002FA7] shrink-0">{c.score > 0 ? c.score : "-"}</div>
                 </div>
-
                 <div className="flex items-center gap-4 w-full md:w-auto">
                   <div className="grid grid-cols-5 gap-1.5 w-full md:w-auto">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 10, 12].map((p) => {
