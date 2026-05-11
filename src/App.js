@@ -14,8 +14,7 @@ const initialCountries = [
     name: "Moldova",
     song: "Satoshi — Viva, Moldova",
     flag: "🇲🇩",
-    image:
-      "https://photos.ebu.ch/media/image?src=thumbs/37207_400_h.jpg&1778481834",
+    image: "https://photos.ebu.ch/media/image?src=thumbs/37207_400_h.jpg&1778481834",
     score: 0,
   },
   {
@@ -23,8 +22,7 @@ const initialCountries = [
     name: "Sweden",
     song: "Felicia — My System",
     flag: "🇸🇪",
-    image:
-      "https://photos.ebu.ch/media/image?src=thumbs/37224_400_h.jpg&1778482234",
+    image: "https://photos.ebu.ch/media/image?src=thumbs/37224_400_h.jpg&1778482234",
     score: 0,
   },
   {
@@ -32,8 +30,7 @@ const initialCountries = [
     name: "Croatia",
     song: "Lelek — Andromeda",
     flag: "🇭🇷",
-    image:
-      "https://photos.ebu.ch/media/image?src=thumbs/37077_400_h.jpg&1778482274",
+    image: "https://photos.ebu.ch/media/image?src=thumbs/37077_400_h.jpg&1778482274",
     score: 0,
   },
   {
@@ -41,8 +38,7 @@ const initialCountries = [
     name: "Greece",
     song: "Akylas — Ferto",
     flag: "🇬🇷",
-    image:
-      "https://photos.ebu.ch/media/image?src=thumbs/37812_400_h.jpg&1778482325",
+    image: "https://photos.ebu.ch/media/image?src=thumbs/37812_400_h.jpg&1778482325",
     score: 0,
   },
   {
@@ -50,8 +46,7 @@ const initialCountries = [
     name: "Portugal",
     song: "Bandidos do Cante — Rosa",
     flag: "🇵🇹",
-    image:
-      "https://photos.ebu.ch/media/image?src=thumbs/37222_400_h.jpg&1778482352",
+    image: "https://photos.ebu.ch/media/image?src=thumbs/37222_400_h.jpg&1778482352",
     score: 0,
   },
   {
@@ -59,8 +54,7 @@ const initialCountries = [
     name: "Georgia",
     song: "Bzikebi — On Replay",
     flag: "🇬🇪",
-    image:
-      "https://photos.ebu.ch/media/image?src=thumbs/37819_400_h.jpg&1778482385",
+    image: "https://photos.ebu.ch/media/image?src=thumbs/37819_400_h.jpg&1778482385",
     score: 0,
   },
   {
@@ -68,8 +62,7 @@ const initialCountries = [
     name: "Finland",
     song: "Linda & Pete — Liekinheitin",
     flag: "🇫🇮",
-    image:
-      "https://photos.ebu.ch/media/image?src=thumbs/37824_400_h.jpg&1778482429",
+    image: "https://photos.ebu.ch/media/image?src=thumbs/37824_400_h.jpg&1778482429",
     score: 0,
   },
   {
@@ -77,8 +70,7 @@ const initialCountries = [
     name: "Montenegro",
     song: "Tamara Živković — Nova zora",
     flag: "🇲🇪",
-    image:
-      "https://photos.ebu.ch/media/image?src=thumbs/37830_400_h.jpg&1778482452",
+    image: "https://photos.ebu.ch/media/image?src=thumbs/37830_400_h.jpg&1778482452",
     score: 0,
   },
   {
@@ -86,8 +78,7 @@ const initialCountries = [
     name: "Estonia",
     song: "Vanilla Ninja — Too Epic To Be True",
     flag: "🇪🇪",
-    image:
-      "https://photos.ebu.ch/media/image?src=thumbs/37832_400_h.jpg&1778482479",
+    image: "https://photos.ebu.ch/media/image?src=thumbs/37832_400_h.jpg&1778482479",
     score: 0,
   },
   {
@@ -104,8 +95,7 @@ const initialCountries = [
     name: "Belgium",
     song: "Essyla — Dancing on the Ice",
     flag: "🇧🇪",
-    image:
-      "https://photos.ebu.ch/media/image?src=thumbs/37844_400_h.jpg&1778482558",
+    image: "https://photos.ebu.ch/media/image?src=thumbs/37844_400_h.jpg&1778482558",
     score: 0,
   },
   {
@@ -113,8 +103,7 @@ const initialCountries = [
     name: "Lithuania",
     song: "Lion Ceccah — Sólo quiero más",
     flag: "🇱🇹",
-    image:
-      "https://photos.ebu.ch/media/image?src=thumbs/37847_400_h.jpg&1778482586",
+    image: "https://photos.ebu.ch/media/image?src=thumbs/37847_400_h.jpg&1778482586",
     score: 0,
   },
   {
@@ -122,8 +111,7 @@ const initialCountries = [
     name: "San Marino",
     song: "Senhit ft. Boy George — Superstar",
     flag: "🇸🇲",
-    image:
-      "https://photos.ebu.ch/media/image?src=thumbs/37251_400_h.jpg&1778482607",
+    image: "https://photos.ebu.ch/media/image?src=thumbs/37251_400_h.jpg&1778482607",
     score: 0,
   },
   {
@@ -131,8 +119,7 @@ const initialCountries = [
     name: "Poland",
     song: "Alicja Szemplińska — Pray",
     flag: "🇵🇱",
-    image:
-      "https://photos.ebu.ch/media/image?src=thumbs/37701_400_h.jpg&1778482646",
+    image: "https://photos.ebu.ch/media/image?src=thumbs/37701_400_h.jpg&1778482646",
     score: 0,
   },
   {
@@ -140,8 +127,7 @@ const initialCountries = [
     name: "Serbia",
     song: "Lavina — Kraj mene",
     flag: "🇷🇸",
-    image:
-      "https://photos.ebu.ch/media/image?src=thumbs/37706_400_h.jpg&1778482671",
+    image: "https://photos.ebu.ch/media/image?src=thumbs/37706_400_h.jpg&1778482671",
     score: 0,
   },
 ];
@@ -271,7 +257,7 @@ export default function EurovisionScoreboard() {
       >
         <header className="mb-6 md:mb-8 text-center flex flex-col items-center">
           <img
-            src="https://upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png"
+            src={logoUrl}
             alt="Eurovision 2026"
             crossOrigin="anonymous"
             className="h-16 sm:h-20 md:h-28 mb-3 object-contain"
