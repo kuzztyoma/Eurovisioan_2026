@@ -2,10 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import html2canvas from "html2canvas";
 
-const logoUrl =
-  "https://corsproxy.io/?" +
-  encodeURIComponent(
-    "https://upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.png");
+// Стабильный прокси для захвата логотипа
+const logoUrl = "https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png";
 
 const initialCountries = [
   { id: "md", name: "Moldova", song: "Satoshi — Viva, Moldova", flag: "🇲🇩", image: "https://photos.ebu.ch/media/image?src=thumbs/37207_400_h.jpg&1778481834", score: 0, note: "" },
@@ -103,40 +101,35 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[#f3f4f6] text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (Stories 9:16 с идеальными полями) */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР ( Stories 9:16 — Только Топ-10 ) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div 
           ref={exportRef} 
-          className="w-[1080px] h-[1920px] bg-[#f3f4f6] pt-44 pb-44 px-12 flex flex-col items-center justify-between"
+          className="w-[1080px] h-[1920px] bg-[#f3f4f6] pt-36 pb-36 px-14 flex flex-col items-center justify-between"
         >
-          <header className="text-center flex flex-col items-center w-full mb-10">
-            <img 
-              src="https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png" 
-              crossOrigin="anonymous" 
-              className="h-32 mb-8 object-contain" 
-              alt="" 
-            />
-            <h1 className="text-8xl font-black text-gray-900 mb-2 tracking-tighter italic uppercase leading-none">Semi-Final 1</h1>
-            <p className="text-gray-500 text-2xl font-bold tracking-[0.3em] uppercase opacity-60 mb-10">12 MAY 2026 // VIENNA</p>
-            <div className="bg-[#002FA7] text-white px-12 h-20 flex items-center justify-center rounded-full text-4xl font-black uppercase tracking-widest italic">
+          <header className="text-center flex flex-col items-center w-full mb-8">
+            <img src={logoUrl} crossOrigin="anonymous" className="h-28 mb-6 object-contain" alt="" />
+            <h1 className="text-7xl font-black text-gray-900 mb-1 tracking-tighter italic uppercase leading-none">Semi-Final 1</h1>
+            <p className="text-gray-500 text-xl font-bold tracking-[0.3em] uppercase opacity-60 mb-8">12 MAY 2026 // VIENNA</p>
+            <div className="bg-[#002FA7] text-white px-10 h-16 flex items-center justify-center rounded-full text-3xl font-black uppercase tracking-widest italic shadow-lg">
               My Top 10
             </div>
           </header>
 
-          <div className="flex flex-col gap-4 w-full px-4">
+          <div className="flex flex-col gap-3 w-full px-2 flex-grow justify-center">
             {sorted.slice(0, 10).map((c, i) => (
-              <div key={c.id} className="bg-white px-10 h-32 flex items-center justify-between rounded-[45px] border border-gray-100">
-                <div className="flex items-center gap-10 h-full">
-                  <span className="text-4xl font-black text-gray-200 italic w-12 flex items-center justify-center h-full">{i + 1}</span>
-                  <div className="w-24 h-full flex items-center justify-center text-[75px] -mt-3">
+              <div key={c.id} className="bg-white px-10 h-26 flex items-center justify-between rounded-[35px] border border-gray-100">
+                <div className="flex items-center gap-8 h-full">
+                  <span className="text-3xl font-black text-gray-200 italic w-12 flex items-center justify-center h-full leading-none">{i + 1}</span>
+                  <div className="w-20 h-full flex items-center justify-center text-[65px] leading-none -mt-3">
                     {c.flag}
                   </div>
-                  <div className="ml-4 text-left flex flex-col justify-center h-full">
-                    <h2 className="text-[48px] font-black uppercase tracking-tighter leading-none mb-2">{c.name}</h2>
-                    <p className="text-gray-400 text-2xl italic font-medium leading-none">{c.song}</p>
+                  <div className="ml-3 text-left flex flex-col justify-center h-full">
+                    <h2 className="text-[38px] font-black uppercase tracking-tighter leading-none mb-1">{c.name}</h2>
+                    <p className="text-gray-400 text-xl italic font-medium leading-none">{c.song}</p>
                   </div>
                 </div>
-                <div className="text-8xl font-black text-[#002FA7] flex items-center h-full pr-4 -mt-2 tracking-tighter">
+                <div className="text-7xl font-black text-[#002FA7] flex items-center h-full pr-2 -mt-2 tracking-tighter leading-none">
                    {c.score}
                 </div>
               </div>
@@ -147,7 +140,7 @@ export default function EurovisionScoreboard() {
         </div>
       </div>
 
-      {/* 2. ПАНЕЛЬ УПРАВЛЕНИЯ */}
+      {/* 2. ПАНЕЛЬ УПРАВЛЕНИЯ ( Твой основной интерфейс ) */}
       {!isExporting && (
         <div className="w-full bg-white border-b py-3 px-3 sm:px-6 flex justify-center gap-2 sm:gap-3 sticky top-0 z-50 shadow-sm">
           {votingStarted ? (
@@ -169,7 +162,7 @@ export default function EurovisionScoreboard() {
         </div>
       )}
 
-      {/* 3. ОСНОВНОЙ ИНТЕРФЕЙС */}
+      {/* 3. ОСНОВНОЙ СПИСОК ( Для работы на сайте ) */}
       <div className="w-full max-w-5xl p-3 sm:p-4 md:p-8 bg-[#f3f4f6] flex flex-col">
         <header className="mb-6 md:mb-8 text-center flex flex-col items-center">
           <img 
