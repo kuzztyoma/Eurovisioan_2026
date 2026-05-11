@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import html2canvas from "html2canvas";
 
-// Стабильный прокси для захвата логотипа
+// Стабильный прокси для логотипа
 const logoUrl = "https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png";
 
 const initialCountries = [
@@ -101,7 +101,7 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[#f3f4f6] text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР ( Stories 9:16 с пересчитанными высотами ) */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР ( Stories 9:16 — Исправленная центровка и размер баллов ) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div 
           ref={exportRef} 
@@ -110,28 +110,30 @@ export default function EurovisionScoreboard() {
           {/* Header */}
           <header className="text-center flex flex-col items-center w-full mb-8">
             <img src={logoUrl} crossOrigin="anonymous" className="h-28 mb-6 object-contain" alt="" />
-            <h1 className="text-7xl font-black text-gray-900 mb-1 tracking-tighter italic uppercase leading-tight">Semi-Final 1</h1>
+            <h1 className="text-7xl font-black text-gray-900 mb-1 tracking-tighter italic uppercase leading-none">Semi-Final 1</h1>
             <p className="text-gray-500 text-xl font-bold tracking-[0.3em] uppercase opacity-60 mb-8 font-sans">12 MAY 2026 // VIENNA</p>
-            <div className="bg-[#002FA7] text-white px-10 h-16 flex items-center justify-center rounded-full text-3xl font-black uppercase tracking-widest italic shadow-lg">
+            {/* Исправлено: текст без фона */}
+            <div className="text-[#002FA7] text-5xl font-black uppercase tracking-widest italic">
               My Top 10
             </div>
           </header>
 
-          {/* Список Топ-10 (Жесткая высота строки h-[105px]) */}
+          {/* Список (Высота увеличена до h-[115px] для свободы элементов) */}
           <div className="flex flex-col gap-4 w-full px-2 flex-grow justify-center">
             {sorted.slice(0, 10).map((c, i) => (
-              <div key={c.id} className="bg-white px-10 h-[105px] flex items-center justify-between rounded-[35px] border border-gray-100">
-                <div className="flex items-center gap-8 h-full">
-                  <span className="text-3xl font-black text-gray-200 italic w-12 flex items-center justify-center h-full leading-none">{i + 1}</span>
-                  <div className="w-20 h-full flex items-center justify-center text-[60px] leading-none">
+              <div key={c.id} className="bg-white px-10 h-[115px] flex items-center justify-between rounded-[40px] border border-gray-100">
+                <div className="flex items-center gap-10 h-full">
+                  <span className="text-4xl font-black text-gray-200 italic w-12 flex items-center justify-center h-full leading-none">{i + 1}</span>
+                  <div className="w-20 h-full flex items-center justify-center text-[65px] leading-none">
                     {c.flag}
                   </div>
                   <div className="ml-3 text-left flex flex-col justify-center h-full">
-                    <h2 className="text-[36px] font-black uppercase tracking-tighter leading-none mb-1">{c.name}</h2>
-                    <p className="text-gray-400 text-xl italic font-medium leading-none">{c.song}</p>
+                    <h2 className="text-[42px] font-black uppercase tracking-tighter leading-none mb-1">{c.name}</h2>
+                    <p className="text-gray-400 text-2xl italic font-medium leading-none">{c.song}</p>
                   </div>
                 </div>
-                <div className="text-7xl font-black text-[#002FA7] flex items-center h-full pr-2 tracking-tighter leading-none">
+                {/* Исправлено: текст меньше (text-6xl), чтобы не вылезать */}
+                <div className="text-6xl font-black text-[#002FA7] flex items-center h-full pr-4 tracking-tighter leading-none">
                    {c.score}
                 </div>
               </div>
@@ -142,7 +144,7 @@ export default function EurovisionScoreboard() {
         </div>
       </div>
 
-      {/* 2. ПАНЕЛЬ УПРАВЛЕНИЯ (Без изменений) */}
+      {/* 2. ПАНЕЛЬ УПРАВЛЕНИЯ */}
       {!isExporting && (
         <div className="w-full bg-white border-b py-3 px-3 sm:px-6 flex justify-center gap-2 sm:gap-3 sticky top-0 z-50 shadow-sm">
           {votingStarted ? (
@@ -164,7 +166,7 @@ export default function EurovisionScoreboard() {
         </div>
       )}
 
-      {/* 3. ОСНОВНОЙ СПИСОК (Без изменений) */}
+      {/* 3. ОСНОВНОЙ СПИСОК САЙТА */}
       <div className="w-full max-w-5xl p-3 sm:p-4 md:p-8 bg-[#f3f4f6] flex flex-col">
         <header className="mb-6 md:mb-8 text-center flex flex-col items-center">
           <img 
@@ -173,7 +175,7 @@ export default function EurovisionScoreboard() {
             className="h-16 sm:h-20 md:h-28 mb-3 object-contain" 
             alt="Logo" 
           />
-          <h1 className="text-3xl md:text-5xl font-black text-gray-900 mb-1 leading-normal uppercase tracking-tighter italic font-sans">Semi-Final 1</h1>
+          <h1 className="text-3xl md:text-5xl font-black text-gray-900 mb-1 leading-normal uppercase tracking-tighter italic">Semi-Final 1</h1>
           <p className="text-gray-500 text-sm italic font-medium mb-4">12 MAY 2026, VIENNA</p>
         </header>
 
@@ -195,7 +197,7 @@ export default function EurovisionScoreboard() {
                   <div className="text-2xl sm:text-3xl md:text-4xl flex items-center justify-center shrink-0 leading-normal rounded-full bg-gray-50 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 shadow-inner">{c.flag}</div>
                   <img src={c.image} alt="" className="w-14 h-9 sm:w-16 sm:h-10 md:w-24 md:h-14 rounded-md object-cover bg-gray-100 shrink-0 shadow-sm" />
                   <div className="flex-1 min-w-0 md:w-56 ml-0 md:ml-4">
-                    <h2 className="text-base sm:text-lg md:text-xl font-black uppercase pb-1 leading-normal break-words font-sans">{c.name}</h2>
+                    <h2 className="text-base sm:text-lg md:text-xl font-black uppercase pb-1 leading-normal break-words">{c.name}</h2>
                     <p className="text-gray-500 text-[11px] sm:text-xs md:text-sm italic pb-1 leading-normal break-words">{c.song}</p>
                     <textarea
                       value={c.note || ""}
