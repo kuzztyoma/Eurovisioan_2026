@@ -2,10 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import html2canvas from "html2canvas";
 
-const logoUrl =
-  "https://corsproxy.io/?" +
-  encodeURIComponent(
-    "https://upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.png");
+// Самая стабильная ссылка через прокси для отображения и экспорта
+const logoUrl = "https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png";
 
 const initialCountries = [
   { id: "md", name: "Moldova", song: "Satoshi — Viva, Moldova", flag: "🇲🇩", image: "https://photos.ebu.ch/media/image?src=thumbs/37207_400_h.jpg&1778481834", score: 0, note: "" },
@@ -103,7 +101,7 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[#f3f4f6] text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (Без теней для исключения артефактов) */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (Оптическая центровка) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div 
           ref={exportRef} 
@@ -163,11 +161,11 @@ export default function EurovisionScoreboard() {
         </div>
       )}
 
-      {/* 3. ОСНОВНОЙ ИНТЕРФЕЙС */}
+      {/* 3. ОСНОВНОЙ ИНТЕРФЕЙС (Использует logoUrl) */}
       <div className="w-full max-w-5xl p-3 sm:p-4 md:p-8 bg-[#f3f4f6] flex flex-col">
         <header className="mb-6 md:mb-8 text-center flex flex-col items-center">
           <img 
-            src="https://upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.png" 
+            src={logoUrl} 
             crossOrigin="anonymous" 
             className="h-16 sm:h-20 md:h-28 mb-3 object-contain" 
             alt="Eurovision 2026" 
