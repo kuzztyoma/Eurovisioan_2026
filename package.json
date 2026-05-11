@@ -8,8 +8,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-scripts": "^5.0.0",
-    "framer-motion": "12.38.0",
-    "html2canvas": "1.4.1"
+    "framer-motion": "latest",
+    "html2canvas": "latest"
   },
   "devDependencies": {
     "@types/react": "19.0.0",
