@@ -28,13 +28,13 @@ const initialCountries = [
 export default function EurovisionScoreboard() {
   const exportRef = useRef(null);
   const [countries, setCountries] = useState(() => {
-    const saved = localStorage.getItem("eurovision-scores-2026-v19");
+    const saved = localStorage.getItem("eurovision-scores-2026-v20");
     return saved ? JSON.parse(saved) : initialCountries;
   });
   const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("eurovision-scores-2026-v19", JSON.stringify(countries));
+    localStorage.setItem("eurovision-scores-2026-v20", JSON.stringify(countries));
   }, [countries]);
 
   const toggleScore = (targetId, clickedPoints) => {
@@ -54,7 +54,7 @@ export default function EurovisionScoreboard() {
   const resetScores = () => {
     if (window.confirm("Reset all votes?")) {
       setCountries(initialCountries);
-      localStorage.removeItem("eurovision-scores-2026-v19");
+      localStorage.removeItem("eurovision-scores-2026-v20");
     }
   };
 
@@ -80,7 +80,7 @@ export default function EurovisionScoreboard() {
       } finally {
         setIsExporting(false);
       }
-    }, 1200); // Даем больше времени на загрузку всех прокси-изображений
+    }, 1200); 
   };
 
   const sorted = [...countries].sort((a, b) => b.score - a.score);
@@ -90,7 +90,7 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#6366f1]/15 via-slate-50 to-[#d8b4fe]/15 text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center transition-all">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (Стиль Desktop, но без Backdrop-blur для чистоты) */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div ref={exportRef} className="w-[1080px] h-[1920px] bg-slate-50 pt-[180px] pb-[180px] px-14 flex flex-col items-center justify-between">
           <header className="text-center flex flex-col items-center w-full mb-12">
@@ -105,7 +105,16 @@ export default function EurovisionScoreboard() {
               <div key={c.id} className="bg-white h-[105px] px-8 flex items-center justify-between rounded-[35px] border border-gray-200">
                 <div className="flex items-center gap-8 h-full leading-none">
                   <span className="text-3xl font-black text-gray-200 italic w-10 flex items-center justify-center">{i + 1}</span>
-                  <div className="text-[55px] flex items-center justify-center -mt-1">{c.flag}</div>
+                  
+                  {/* Логика вывода флага в экспорте */}
+                  <div className="w-[80px] flex items-center justify-center">
+                    {c.flag.startsWith("http") ? (
+                      <img src={getProxyUrl(c.flag)} crossOrigin="anonymous" className="w-16 h-10 object-contain rounded-sm" alt="" />
+                    ) : (
+                      <span className="text-[55px] -mt-1 leading-none">{c.flag}</span>
+                    )}
+                  </div>
+
                   <img src={getProxyUrl(c.image)} crossOrigin="anonymous" alt="" className="w-28 h-16 rounded-xl object-cover border border-gray-100" />
                   <div className="ml-1 text-left flex flex-col justify-center h-full">
                     <h2 className="text-[34px] font-black uppercase tracking-tighter leading-none mb-1 text-gray-900">{c.name}</h2>
@@ -134,7 +143,7 @@ export default function EurovisionScoreboard() {
         </div>
       )}
 
-      {/* 3. ОСНОВНОЙ СПИСОК ( Glassmorphism UI ) */}
+      {/* 3. ОСНОВНОЙ СПИСОК */}
       <div className="w-full max-w-6xl p-4 md:p-8 flex flex-col relative z-10">
         <header className="mb-12 text-center flex flex-col items-center">
           <img src={logoUrl} crossOrigin="anonymous" className="h-20 md:h-28 mb-4 object-contain" alt="Logo" />
@@ -157,7 +166,15 @@ export default function EurovisionScoreboard() {
                 <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 flex-1 w-full md:w-auto h-full">
                   <div className="flex items-center gap-4 shrink-0 md:w-32">
                     <div className="w-8 text-center text-xl font-bold text-gray-300 italic">{i + 1}</div>
-                    <div className="text-4xl flex items-center justify-center bg-white/70 w-14 h-14 rounded-full shadow-inner border border-white/50">{c.flag}</div>
+                    
+                    {/* Контейнер флага в UI: если ссылка - рисуем img, если эмодзи - текст */}
+                    <div className="text-4xl flex items-center justify-center bg-white/70 w-16 h-16 md:w-14 md:h-14 rounded-full shadow-inner border border-white/50 overflow-hidden">
+                      {c.flag.startsWith("http") ? (
+                        <img src={c.flag} className="w-10 h-7 object-contain rounded-sm" alt="" />
+                      ) : (
+                        c.flag
+                      )}
+                    </div>
                   </div>
 
                   <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 flex-1 w-full md:w-auto min-w-0 h-full">
@@ -188,7 +205,7 @@ export default function EurovisionScoreboard() {
         </div>
 
         <footer className="mt-20 mb-8 text-center text-gray-400 text-[10px] font-bold uppercase tracking-[0.3em] opacity-50 relative z-20">
-          Created by <a href="https://www.instagram.com/artkuztom/" target="_blank" rel="noopener noreferrer" className="text-[#002FA7] hover:underline font-bold transition-colors">Artyom Kuzmenko</a>
+          Scoreboard created by <a href="https://www.instagram.com/artkuztom/" target="_blank" rel="noopener noreferrer" className="text-[#002FA7] hover:underline font-bold transition-colors">Artyom Kuzmenko</a>
         </footer>
       </div>
     </div>
