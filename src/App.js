@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import html2canvas from "html2canvas";
 
-// Самый стабильный прокси для захвата изображений
+// Используем максимально стабильную ссылку для логотипа
 const logoUrl = "https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png";
 
 const initialCountries = [
@@ -71,6 +71,7 @@ export default function EurovisionScoreboard() {
     if (!exportRef.current || votesCount !== 10) return;
     setIsExporting(true);
 
+    // Даем браузеру больше времени на отрисовку внешних ресурсов
     setTimeout(async () => {
       try {
         const canvas = await html2canvas(exportRef.current, {
@@ -79,7 +80,8 @@ export default function EurovisionScoreboard() {
           useCORS: true,
           allowTaint: false,
           width: 1080,
-          height: 1920
+          height: 1920,
+          logging: false
         });
 
         const link = document.createElement("a");
@@ -91,7 +93,7 @@ export default function EurovisionScoreboard() {
       } finally {
         setIsExporting(false);
       }
-    }, 800);
+    }, 1000);
   };
 
   const sorted = [...countries].sort((a, b) => b.score - a.score);
@@ -101,46 +103,53 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[#f3f4f6] text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (Stories Format) */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР ( Stories 9:16 ) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div 
           ref={exportRef} 
-          className="w-[1080px] h-[1920px] bg-[#f3f4f6] p-12 flex flex-col items-center"
+          className="w-[1080px] h-[1920px] bg-[#f3f4f6] p-12 pt-20 flex flex-col items-center"
         >
-          <header className="text-center flex flex-col items-center w-full mb-6">
-            <img src={logoUrl} crossOrigin="anonymous" className="h-32 mb-4 object-contain" alt="" />
-            <h1 className="text-7xl font-black text-gray-900 mb-1 tracking-tighter italic uppercase leading-tight">Semi-Final 1</h1>
-            <p className="text-gray-500 text-xl font-bold tracking-[0.3em] uppercase opacity-60 mb-6 font-sans">12 MAY 2026 // VIENNA</p>
-            <div className="bg-[#002FA7] text-white px-10 py-3 rounded-full text-4xl font-black uppercase tracking-widest italic shadow-lg">
+          <header className="text-center flex flex-col items-center w-full mb-10">
+            <img src={logoUrl} crossOrigin="anonymous" className="h-32 mb-6 object-contain" alt="Logo" />
+            <h1 className="text-8xl font-black text-gray-900 mb-2 tracking-tighter italic uppercase leading-none">Semi-Final 1</h1>
+            <p className="text-gray-500 text-2xl font-bold tracking-[0.3em] uppercase opacity-60 mb-10 font-sans">12 MAY 2026 // VIENNA</p>
+            <div className="bg-[#002FA7] text-white px-12 py-4 rounded-full text-4xl font-black uppercase tracking-widest italic shadow-xl">
               My Top 10
             </div>
           </header>
 
-          <div className="flex flex-col gap-4 w-full px-4 flex-1">
+          <div className="flex flex-col gap-4 w-full px-6 flex-1">
             {sorted.slice(0, 10).map((c, i) => (
-              <div key={c.id} className="bg-white px-8 h-32 flex items-center justify-between rounded-[40px] border border-gray-200">
-                <div className="flex items-center gap-8 h-full">
-                  <span className="text-4xl font-black text-gray-200 italic w-12 flex items-center justify-center leading-none">{i + 1}</span>
-                  <div className="text-[72px] flex items-center justify-center leading-none -mt-3">
+              <div key={c.id} className="bg-white px-10 h-32 flex items-center justify-between rounded-[45px] border border-gray-200">
+                <div className="flex items-center gap-10 h-full">
+                  <span className="text-5xl font-black text-gray-200 italic w-14 flex items-center justify-center leading-none">
+                    {i + 1}
+                  </span>
+                  
+                  {/* Контейнер флага с принудительной центровкой */}
+                  <div className="w-24 h-full flex items-center justify-center text-[80px] leading-none -mt-4">
                     {c.flag}
                   </div>
-                  <div className="ml-2 text-left flex flex-col justify-center h-full">
-                    <h2 className="text-[44px] font-black uppercase tracking-tighter leading-none mb-1">{c.name}</h2>
-                    <p className="text-gray-400 text-2xl italic font-medium leading-none">{c.song}</p>
+
+                  <div className="ml-4 text-left flex flex-col justify-center h-full">
+                    <h2 className="text-[52px] font-black uppercase tracking-tighter leading-none mb-2">{c.name}</h2>
+                    <p className="text-gray-400 text-3xl italic font-medium leading-none">{c.song}</p>
                   </div>
                 </div>
-                <div className="text-7xl font-black text-[#002FA7] flex items-center h-full pr-4 leading-none">
-                   {c.score}
+
+                {/* Контейнер баллов с принудительной центровкой */}
+                <div className="h-full flex items-center pr-6">
+                   <span className="text-8xl font-black text-[#002FA7] leading-none">{c.score}</span>
                 </div>
               </div>
             ))}
           </div>
           
-          <div className="h-16 w-full"></div>
+          <div className="h-24 w-full"></div>
         </div>
       </div>
 
-      {/* 2. ВИДИМАЯ ПАНЕЛЬ УПРАВЛЕНИЯ */}
+      {/* 2. ВИДИМАЯ ПАНЕЛЬ */}
       {!isExporting && (
         <div className="w-full bg-white border-b py-3 px-3 sm:px-6 flex justify-center gap-2 sm:gap-3 sticky top-0 z-50 shadow-sm">
           {votingStarted ? (
@@ -169,7 +178,7 @@ export default function EurovisionScoreboard() {
             src={logoUrl} 
             crossOrigin="anonymous" 
             className="h-16 sm:h-20 md:h-28 mb-3 object-contain" 
-            alt="Eurovision 2026" 
+            alt="ESC Logo" 
           />
           <h1 className="text-3xl md:text-5xl font-black text-gray-900 mb-1 leading-normal uppercase tracking-tighter italic font-sans">Semi-Final 1</h1>
           <p className="text-gray-500 text-sm italic font-medium mb-4">12 MAY 2026, VIENNA</p>
@@ -179,7 +188,7 @@ export default function EurovisionScoreboard() {
           {sorted.map((c, i) => (
             <React.Fragment key={c.id}>
               {votingStarted && i === 10 && (
-                <div className="w-full py-10 flex items-center gap-4 px-2 font-sans">
+                <div className="w-full py-10 flex items-center gap-4 px-2 font-sans text-center">
                   <div className="flex-1 h-px bg-gray-300"></div>
                   <span className="text-gray-400 text-[10px] md:text-xs font-black uppercase tracking-[0.3em] whitespace-nowrap shrink-0">
                     Zero Points
@@ -211,7 +220,7 @@ export default function EurovisionScoreboard() {
                       const mine = c.score === p;
                       const taken = countries.some((other) => other.id !== c.id && other.score === p);
                       return (
-                        <button key={p} onClick={() => toggleScore(c.id, p)} className={`h-10 md:h-9 w-full md:w-9 flex items-center justify-center rounded text-xs font-black transition-all border ${mine ? \"bg-[#002FA7] text-white border-[#002FA7] shadow-md scale-105\" : taken ? \"bg-gray-50 text-gray-200 border-gray-100\" : \"bg-gray-100 text-gray-500 border-gray-200 hover:bg-gray-200\"}`}>{p}</button>
+                        <button key={p} onClick={() => toggleScore(c.id, p)} className={`h-10 md:h-9 w-full md:w-9 flex items-center justify-center rounded text-xs font-black transition-all border ${mine ? "bg-[#002FA7] text-white border-[#002FA7] shadow-md scale-105" : taken ? "bg-gray-50 text-gray-200 border-gray-100" : "bg-gray-100 text-gray-500 border-gray-200 hover:bg-gray-200"}`}>{p}</button>
                       );
                     })}
                   </div>
@@ -223,7 +232,7 @@ export default function EurovisionScoreboard() {
         </div>
 
         <footer className="mt-12 mb-4 text-center text-gray-400 text-xs font-medium uppercase tracking-[0.2em] opacity-60">
-          Scoreboard created by <a href="https://www.instagram.com/artkuztom/" target="_blank" rel=\"noopener noreferrer\" className=\"text-[#002FA7] hover:underline font-bold transition-colors\">Artyom Kuzmenko</a>
+          Scoreboard created by <a href="https://www.instagram.com/artkuztom/" target="_blank" rel="noopener noreferrer" className="text-[#002FA7] hover:underline font-bold transition-colors">Artyom Kuzmenko</a>
         </footer>
       </div>
     </div>
