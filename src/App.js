@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import html2canvas from "html2canvas";
 
-// Стабильный прокси для логотипа
-const logoUrl = "https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png";
+const logoUrl =
+  "https://corsproxy.io/?" +
+  encodeURIComponent(
+    "https://upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.png");
 
 const initialCountries = [
   { id: "md", name: "Moldova", song: "Satoshi — Viva, Moldova", flag: "🇲🇩", image: "https://photos.ebu.ch/media/image?src=thumbs/37207_400_h.jpg&1778481834", score: 0, note: "" },
@@ -101,23 +103,26 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[#f3f4f6] text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР ( Stories 9:16 с негативным пространством ) */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (Stories 9:16 с идеальными полями) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div 
           ref={exportRef} 
-          className="w-[1080px] h-[1920px] bg-[#f3f4f6] pt-40 pb-40 px-12 flex flex-col items-center justify-between"
+          className="w-[1080px] h-[1920px] bg-[#f3f4f6] pt-44 pb-44 px-12 flex flex-col items-center justify-between"
         >
-          {/* Header с запасом сверху */}
-          <header className="text-center flex flex-col items-center w-full mb-12">
-            <img src={logoUrl} crossOrigin="anonymous" className="h-32 mb-8 object-contain" alt="" />
-            <h1 className="text-8xl font-black text-gray-900 mb-2 tracking-tighter italic uppercase leading-tight">Semi-Final 1</h1>
+          <header className="text-center flex flex-col items-center w-full mb-10">
+            <img 
+              src="https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png" 
+              crossOrigin="anonymous" 
+              className="h-32 mb-8 object-contain" 
+              alt="" 
+            />
+            <h1 className="text-8xl font-black text-gray-900 mb-2 tracking-tighter italic uppercase leading-none">Semi-Final 1</h1>
             <p className="text-gray-500 text-2xl font-bold tracking-[0.3em] uppercase opacity-60 mb-10">12 MAY 2026 // VIENNA</p>
             <div className="bg-[#002FA7] text-white px-12 h-20 flex items-center justify-center rounded-full text-4xl font-black uppercase tracking-widest italic">
               My Top 10
             </div>
           </header>
 
-          {/* Список стран (Центрируется автоматически за счет justify-between в родителе) */}
           <div className="flex flex-col gap-4 w-full px-4">
             {sorted.slice(0, 10).map((c, i) => (
               <div key={c.id} className="bg-white px-10 h-32 flex items-center justify-between rounded-[45px] border border-gray-100">
@@ -138,12 +143,11 @@ export default function EurovisionScoreboard() {
             ))}
           </div>
           
-          {/* Пустой блок внизу для негативного пространства */}
-          <div className="h-20 w-full"></div>
+          <div className="h-10 w-full"></div>
         </div>
       </div>
 
-      {/* 2. ПАНЕЛЬ УПРАВЛЕНИЯ ( Твоя рабочая область ) */}
+      {/* 2. ПАНЕЛЬ УПРАВЛЕНИЯ */}
       {!isExporting && (
         <div className="w-full bg-white border-b py-3 px-3 sm:px-6 flex justify-center gap-2 sm:gap-3 sticky top-0 z-50 shadow-sm">
           {votingStarted ? (
@@ -165,7 +169,7 @@ export default function EurovisionScoreboard() {
         </div>
       )}
 
-      {/* 3. ОСНОВНОЙ ИНТЕРФЕЙС ( Видимая часть сайта ) */}
+      {/* 3. ОСНОВНОЙ ИНТЕРФЕЙС */}
       <div className="w-full max-w-5xl p-3 sm:p-4 md:p-8 bg-[#f3f4f6] flex flex-col">
         <header className="mb-6 md:mb-8 text-center flex flex-col items-center">
           <img 
