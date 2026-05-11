@@ -27,13 +27,13 @@ const initialCountries = [
 export default function EurovisionScoreboard() {
   const exportRef = useRef(null);
   const [countries, setCountries] = useState(() => {
-    const saved = localStorage.getItem("eurovision-scores-2026-v23");
+    const saved = localStorage.getItem("eurovision-scores-2026-v24");
     return saved ? JSON.parse(saved) : initialCountries;
   });
   const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("eurovision-scores-2026-v23", JSON.stringify(countries));
+    localStorage.setItem("eurovision-scores-2026-v24", JSON.stringify(countries));
   }, [countries]);
 
   const toggleScore = (targetId, clickedPoints) => {
@@ -53,7 +53,7 @@ export default function EurovisionScoreboard() {
   const resetScores = () => {
     if (window.confirm("Reset all votes?")) {
       setCountries(initialCountries);
-      localStorage.removeItem("eurovision-scores-2026-v23");
+      localStorage.removeItem("eurovision-scores-2026-v24");
     }
   };
 
@@ -63,18 +63,23 @@ export default function EurovisionScoreboard() {
     setTimeout(async () => {
       try {
         const canvas = await html2canvas(exportRef.current, {
-          scale: 1, backgroundColor: "#f8fafc", useCORS: true, width: 1080, height: 1920, logging: false
+          scale: 1.5, // Увеличил качество
+          backgroundColor: "#f3f4f6",
+          useCORS: true,
+          width: 1080,
+          height: 1920,
+          logging: false
         });
         const link = document.createElement("a");
         link.href = canvas.toDataURL("image/png");
-        link.download = "My_Eurovision_Official_Top.png";
+        link.download = "My_Eurovision_Clean_Top.png";
         link.click();
       } catch (e) {
         alert("Error saving image.");
       } finally {
         setIsExporting(false);
       }
-    }, 1200); 
+    }, 1500); 
   };
 
   const sorted = [...countries].sort((a, b) => b.score - a.score);
@@ -84,19 +89,19 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#6366f1]/15 via-slate-50 to-[#d8b4fe]/15 text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center transition-all">
       
-      {/* 1. ЭКОРТНЫЙ КОНТЕЙНЕР (Stories с официальными фото) */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР ( Stories: Чистые цвета, без прозрачности и теней ) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
-        <div ref={exportRef} className="w-[1080px] h-[1920px] bg-slate-50 pt-[180px] pb-[180px] px-14 flex flex-col items-center justify-between">
-          <header className="text-center flex flex-col items-center w-full mb-12 leading-none">
+        <div ref={exportRef} className="w-[1080px] h-[1920px] bg-[#f3f4f6] pt-[200px] pb-[200px] px-14 flex flex-col items-center justify-between">
+          <header className="text-center flex flex-col items-center w-full mb-12">
             <img src={logoUrl} crossOrigin="anonymous" className="h-32 mb-8 object-contain" alt="" />
-            <h1 className="text-7xl font-black text-gray-900 mb-2 tracking-tighter italic uppercase leading-none">Semi-Final 1</h1>
-            <p className="text-gray-400 text-xl font-bold tracking-[0.4em] uppercase opacity-60 mb-10">12 MAY 2026 // VIENNA</p>
-            <div className="text-[#002FA7] text-6xl font-black uppercase tracking-[0.1em] italic">My Top 10</div>
+            <h1 className="text-8xl font-black text-gray-900 mb-2 tracking-tighter italic uppercase leading-none">Semi-Final 1</h1>
+            <p className="text-gray-400 text-2xl font-bold tracking-[0.4em] uppercase opacity-60 mb-10">12 MAY 2026 // VIENNA</p>
+            <div className="text-[#002FA7] text-7xl font-black uppercase tracking-[0.1em] italic">My Top 10</div>
           </header>
 
-          <div className="flex flex-col gap-3 w-full px-2 flex-grow justify-start">
+          <div className="flex flex-col gap-4 w-full px-2 flex-grow justify-start">
             {sorted.slice(0, 10).map((c, i) => (
-              <div key={c.id} className="bg-white h-[105px] px-8 flex items-center justify-between rounded-[35px] border border-gray-200 shadow-sm">
+              <div key={c.id} className="bg-white h-[105px] px-8 flex items-center justify-between rounded-[40px] border border-gray-200">
                 <div className="flex items-center gap-8 h-full leading-none">
                   <span className="text-3xl font-black text-gray-200 italic w-10 flex items-center justify-center">{i + 1}</span>
                   <div className="w-[100px] flex items-center justify-center">
@@ -130,11 +135,11 @@ export default function EurovisionScoreboard() {
         </div>
       )}
 
-      {/* 3. ОСНОВНОЙ СПИСОК (Glassmorphism + Official Photos) */}
+      {/* 3. ОСНОВНОЙ СПИСОК UI */}
       <div className="w-full max-w-6xl p-4 md:p-8 flex flex-col relative z-10">
         <header className="mb-12 text-center flex flex-col items-center">
           <img src={logoUrl} crossOrigin="anonymous" className="h-20 md:h-28 mb-4 object-contain" alt="Logo" />
-          <h1 className="text-4xl md:text-6xl font-black text-gray-900 mb-1 tracking-tighter italic uppercase">Semi-Final 1</h1>
+          <h1 className="text-4xl md:text-6xl font-black text-gray-900 mb-1 tracking-tighter italic uppercase font-sans">Semi-Final 1</h1>
           <p className="text-gray-500 text-sm font-bold tracking-widest uppercase opacity-60">12 MAY 2026, VIENNA</p>
         </header>
 
@@ -185,8 +190,8 @@ export default function EurovisionScoreboard() {
           ))}
         </div>
 
-        <footer className="mt-20 mb-8 text-center text-gray-400 text-[10px] font-bold uppercase tracking-[0.3em] opacity-50 relative z-20">
-          Created by <a href="https://www.instagram.com/artkuztom/" target="_blank" rel="noopener noreferrer" className="text-[#002FA7] hover:underline font-bold transition-colors">Artyom Kuzmenko</a>
+        <footer className="mt-20 mb-8 text-center text-gray-400 text-[10px] font-bold uppercase tracking-[0.3em] opacity-50 relative z-20 font-sans">
+          Scoreboard created by <a href="https://www.instagram.com/artkuztom/" target="_blank" rel="noopener noreferrer" className="text-[#002FA7] hover:underline font-bold transition-colors">Artyom Kuzmenko</a>
         </footer>
       </div>
     </div>
