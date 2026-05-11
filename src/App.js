@@ -68,7 +68,6 @@ export default function EurovisionScoreboard() {
     );
   };
 
-  // Новая функция для сохранения заметок
   const updateNote = (id, text) => {
     setCountries((prev) =>
       prev.map((c) => (c.id === id ? { ...c, note: text } : c))
@@ -88,6 +87,7 @@ export default function EurovisionScoreboard() {
 
     setIsExporting(true);
 
+    // Увеличил задержку для стабильного рендера
     setTimeout(async () => {
       try {
         const canvas = await html2canvas(scoreboardRef.current, {
@@ -107,7 +107,7 @@ export default function EurovisionScoreboard() {
       } finally {
         setIsExporting(false);
       }
-    }, 300);
+    }, 500);
   };
 
   const sorted = [...countries].sort((a, b) => b.score - a.score);
@@ -115,7 +115,7 @@ export default function EurovisionScoreboard() {
   const votesCount = countries.filter((c) => c.score > 0).length;
 
   return (
-    <div className="min-h-screen bg-[#f3f4f6] text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative">
+    <div className="min-h-screen bg-[#f3f4f6] text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center">
       {!isExporting && (
         <div className="w-full bg-white border-b py-3 px-3 sm:px-6 flex justify-center gap-2 sm:gap-3 sticky top-0 z-50 shadow-sm">
           {votingStarted ? (
@@ -155,7 +155,7 @@ export default function EurovisionScoreboard() {
       >
         <header className="mb-6 md:mb-8 text-center flex flex-col items-center">
           <img
-            src="https://upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.png"
+            src={logoUrl}
             alt="Eurovision 2026"
             crossOrigin="anonymous"
             className="h-16 sm:h-20 md:h-28 mb-3 object-contain"
@@ -170,18 +170,17 @@ export default function EurovisionScoreboard() {
           </p>
         </header>
 
-        <div className="flex flex-col gap-3 flex-grow">
+        <div className="flex flex-col gap-3 flex-grow text-left">
           {sorted.map((c, i) => (
             <React.Fragment key={c.id}>
+              
+              {/* Исправленный разделитель Zero Points */}
               {votingStarted && i === 10 && (
-                <div className="w-full py-4 flex items-center justify-center gap-4">
-                  <div className="h-px bg-gray-300 flex-1"></div>
-
-                  <span className="text-gray-400 text-xs font-bold uppercase tracking-widest bg-[#f3f4f6] px-3 whitespace-nowrap">
+                <div className="w-full py-6 flex items-center justify-center relative">
+                  <div className="absolute inset-x-0 top-1/2 h-px bg-gray-300 -translate-y-1/2"></div>
+                  <span className="relative z-10 text-gray-400 text-xs font-bold uppercase tracking-widest bg-[#f3f4f6] px-4 whitespace-nowrap">
                     Zero Points
                   </span>
-
-                  <div className="h-px bg-gray-300 flex-1"></div>
                 </div>
               )}
 
@@ -229,7 +228,6 @@ export default function EurovisionScoreboard() {
                       {c.song}
                     </p>
 
-                    {/* ПАНЕЛЬ ЗАМЕТОК: скрыта при экспорте */}
                     {!isExporting && (
                       <textarea
                         value={c.note || ""}
@@ -248,7 +246,7 @@ export default function EurovisionScoreboard() {
 
                 <div className="flex items-center gap-4 w-full md:w-auto">
                   {!isExporting ? (
-                    <div className="grid grid-cols-5 gap-1 sm:gap-1.5 w-full md:w-auto">
+                    <div className="grid grid-cols-5 gap-1.5 w-full md:w-auto">
                       {[1, 2, 3, 4, 5, 6, 7, 8, 10, 12].map((p) => {
                         const mine = c.score === p;
                         const taken = countries.some(
