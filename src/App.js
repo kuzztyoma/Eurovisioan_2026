@@ -7,7 +7,6 @@ const getProxyUrl = (url) => `https://images.weserv.nl/?url=${encodeURIComponent
 const logoUrl = "https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png";
 
 const initialCountries = [
-  // Заменил эмодзи Молдовы на SVG ссылку
   { id: "md", name: "Moldova", song: "Satoshi — Viva, Moldova", flag: "https://www.eurovision.com/static/images/flags/flag_md.svg", image: "https://photos.ebu.ch/media/image?src=thumbs/37207_400_h.jpg&1778481834", score: 0, note: "" },
   { id: "se", name: "Sweden", song: "Felicia — My System", flag: "🇸🇪", image: "https://photos.ebu.ch/media/image?src=thumbs/37224_400_h.jpg&1778482234", score: 0, note: "" },
   { id: "hr", name: "Croatia", song: "Lelek — Andromeda", flag: "🇭🇷", image: "https://photos.ebu.ch/media/image?src=thumbs/37077_400_h.jpg&1778482274", score: 0, note: "" },
@@ -28,13 +27,13 @@ const initialCountries = [
 export default function EurovisionScoreboard() {
   const exportRef = useRef(null);
   const [countries, setCountries] = useState(() => {
-    const saved = localStorage.getItem("eurovision-scores-2026-v20");
+    const saved = localStorage.getItem("eurovision-scores-2026-v21");
     return saved ? JSON.parse(saved) : initialCountries;
   });
   const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("eurovision-scores-2026-v20", JSON.stringify(countries));
+    localStorage.setItem("eurovision-scores-2026-v21", JSON.stringify(countries));
   }, [countries]);
 
   const toggleScore = (targetId, clickedPoints) => {
@@ -54,7 +53,7 @@ export default function EurovisionScoreboard() {
   const resetScores = () => {
     if (window.confirm("Reset all votes?")) {
       setCountries(initialCountries);
-      localStorage.removeItem("eurovision-scores-2026-v20");
+      localStorage.removeItem("eurovision-scores-2026-v21");
     }
   };
 
@@ -64,12 +63,7 @@ export default function EurovisionScoreboard() {
     setTimeout(async () => {
       try {
         const canvas = await html2canvas(exportRef.current, {
-          scale: 1, 
-          backgroundColor: "#f8fafc",
-          useCORS: true,
-          width: 1080,
-          height: 1920,
-          logging: false
+          scale: 1, backgroundColor: "#f8fafc", useCORS: true, width: 1080, height: 1920, logging: false
         });
         const link = document.createElement("a");
         link.href = canvas.toDataURL("image/png");
@@ -90,10 +84,10 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#6366f1]/15 via-slate-50 to-[#d8b4fe]/15 text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center transition-all">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (С увеличенным флагом) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div ref={exportRef} className="w-[1080px] h-[1920px] bg-slate-50 pt-[180px] pb-[180px] px-14 flex flex-col items-center justify-between">
-          <header className="text-center flex flex-col items-center w-full mb-12">
+          <header className="text-center flex flex-col items-center w-full mb-12 leading-none">
             <img src={logoUrl} crossOrigin="anonymous" className="h-32 mb-8 object-contain" alt="" />
             <h1 className="text-7xl font-black text-gray-900 mb-2 tracking-tighter italic uppercase leading-none">Semi-Final 1</h1>
             <p className="text-gray-400 text-xl font-bold tracking-[0.4em] uppercase opacity-60 mb-10">12 MAY 2026 // VIENNA</p>
@@ -106,10 +100,10 @@ export default function EurovisionScoreboard() {
                 <div className="flex items-center gap-8 h-full leading-none">
                   <span className="text-3xl font-black text-gray-200 italic w-10 flex items-center justify-center">{i + 1}</span>
                   
-                  {/* Логика вывода флага в экспорте */}
-                  <div className="w-[80px] flex items-center justify-center">
+                  {/* Контейнер флага в экспорте — увеличен */}
+                  <div className="w-[100px] flex items-center justify-center">
                     {c.flag.startsWith("http") ? (
-                      <img src={getProxyUrl(c.flag)} crossOrigin="anonymous" className="w-16 h-10 object-contain rounded-sm" alt="" />
+                      <img src={getProxyUrl(c.flag)} crossOrigin="anonymous" className="w-20 h-14 object-contain" alt="" />
                     ) : (
                       <span className="text-[55px] -mt-1 leading-none">{c.flag}</span>
                     )}
@@ -143,7 +137,7 @@ export default function EurovisionScoreboard() {
         </div>
       )}
 
-      {/* 3. ОСНОВНОЙ СПИСОК */}
+      {/* 3. ОСНОВНОЙ СПИСОК (С увеличенным флагом в UI) */}
       <div className="w-full max-w-6xl p-4 md:p-8 flex flex-col relative z-10">
         <header className="mb-12 text-center flex flex-col items-center">
           <img src={logoUrl} crossOrigin="anonymous" className="h-20 md:h-28 mb-4 object-contain" alt="Logo" />
@@ -167,10 +161,10 @@ export default function EurovisionScoreboard() {
                   <div className="flex items-center gap-4 shrink-0 md:w-32">
                     <div className="w-8 text-center text-xl font-bold text-gray-300 italic">{i + 1}</div>
                     
-                    {/* Контейнер флага в UI: если ссылка - рисуем img, если эмодзи - текст */}
+                    {/* Контейнер флага в UI — иконка теперь больше */}
                     <div className="text-4xl flex items-center justify-center bg-white/70 w-16 h-16 md:w-14 md:h-14 rounded-full shadow-inner border border-white/50 overflow-hidden">
                       {c.flag.startsWith("http") ? (
-                        <img src={c.flag} className="w-10 h-7 object-contain rounded-sm" alt="" />
+                        <img src={c.flag} className="w-12 h-12 object-contain" alt="" />
                       ) : (
                         c.flag
                       )}
