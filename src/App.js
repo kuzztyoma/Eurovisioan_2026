@@ -93,7 +93,7 @@ export default function EurovisionScoreboard() {
       } finally {
         setIsExporting(false);
       }
-    }, 600);
+    }, 800); // Чуть увеличил задержку для прогрузки лого
   };
 
   const sorted = [...countries].sort((a, b) => b.score - a.score);
@@ -103,44 +103,49 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[#f3f4f6] text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (Оптимизирован по высоте и CORS) */}
+      {/* 1. ИСПРАВЛЕННЫЙ ЭКСПОРТНЫЙ КОНТЕЙНЕР (Без теней и с прокси-лого) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div 
           ref={exportRef} 
-          className="w-[1080px] h-[1920px] bg-[#f3f4f6] p-16 flex flex-col justify-between items-center"
+          className="w-[1080px] h-[1920px] bg-[#f3f4f6] p-20 flex flex-col justify-between items-center"
         >
           <header className="text-center flex flex-col items-center w-full">
-            {/* Используем logoUrl с прокси для экспорта */}
-            <img src={logoUrl} crossOrigin="anonymous" className="h-32 mb-8 object-contain" alt="" />
-            <h1 className="text-7xl font-black text-gray-900 mb-2 tracking-tighter italic uppercase">Semi-Final 1</h1>
-            <p className="text-gray-500 text-2xl font-bold tracking-[0.3em] uppercase opacity-60">12 MAY 2026 // VIENNA</p>
+            {/* Weserv прокси только для экспорта, чтобы лого не пропадало */}
+            <img 
+              src="https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png" 
+              crossOrigin="anonymous" 
+              className="h-40 mb-10 object-contain" 
+              alt="" 
+            />
+            <h1 className="text-8xl font-black text-gray-900 mb-4 tracking-tighter italic uppercase">Semi-Final 1</h1>
+            <p className="text-gray-500 text-3xl font-bold tracking-[0.3em] uppercase opacity-60">12 MAY 2026 // VIENNA</p>
           </header>
 
-          <div className="flex flex-col gap-4 w-full px-4">
+          <div className="flex flex-col gap-6 w-full">
             {sorted.slice(0, 10).map((c, i) => (
-              <div key={c.id} className="bg-white p-6 flex items-center justify-between shadow-sm rounded-[32px] border-b-4 border-gray-100">
-                <div className="flex items-center gap-8">
-                  <span className="text-4xl font-black text-gray-300 italic w-12">{i + 1}</span>
-                  <span className="text-7xl leading-none">{c.flag}</span>
-                  <div className="ml-2 text-left">
-                    <h2 className="text-4xl font-black uppercase tracking-tight leading-tight">{c.name}</h2>
-                    <p className="text-gray-400 text-xl italic font-medium">{c.song}</p>
+              <div key={c.id} className="bg-white p-8 flex items-center justify-between rounded-[40px] border border-gray-200">
+                <div className="flex items-center gap-10">
+                  <span className="text-5xl font-black text-gray-300 italic w-16">{i + 1}</span>
+                  <span className="text-8xl leading-none">{c.flag}</span>
+                  <div className="ml-4 text-left">
+                    <h2 className="text-5xl font-black uppercase tracking-tight leading-tight">{c.name}</h2>
+                    <p className="text-gray-400 text-2xl italic font-medium">{c.song}</p>
                   </div>
                 </div>
-                <div className="text-6xl font-black text-[#002FA7] pr-4">{c.score}</div>
+                <div className="text-7xl font-black text-[#002FA7]">{c.score}</div>
               </div>
             ))}
           </div>
 
-          <footer className="w-full text-center pb-4">
-             <p className="text-gray-400 text-xl font-bold uppercase tracking-[0.4em] opacity-50">
+          <footer className="w-full text-center">
+             <p className="text-gray-400 text-2xl font-bold uppercase tracking-[0.4em] opacity-50">
                Scoreboard by <span className="text-[#002FA7]">Artyom Kuzmenko</span>
              </p>
           </footer>
         </div>
       </div>
 
-      {/* 2. ПАНЕЛЬ УПРАВЛЕНИЯ */}
+      {/* 2. ВИДИМАЯ ПАНЕЛЬ (ТВОЙ ЛОГОТИП ТУТ НЕ ТРОГАЛ) */}
       {!isExporting && (
         <div className="w-full bg-white border-b py-3 px-3 sm:px-6 flex justify-center gap-2 sm:gap-3 sticky top-0 z-50 shadow-sm">
           {votingStarted ? (
