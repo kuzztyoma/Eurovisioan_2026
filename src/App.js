@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import html2canvas from "html2canvas";
 
-// Стабильный прокси для логотипа
+// Прокси для стабильной загрузки всех внешних изображений
+const getProxyUrl = (url) => `https://images.weserv.nl/?url=${encodeURIComponent(url.replace(/^https?:\/\//, ''))}`;
 const logoUrl = "https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png";
 
 const initialCountries = [
@@ -26,13 +27,13 @@ const initialCountries = [
 export default function EurovisionScoreboard() {
   const exportRef = useRef(null);
   const [countries, setCountries] = useState(() => {
-    const saved = localStorage.getItem("eurovision-scores-2026-v18");
+    const saved = localStorage.getItem("eurovision-scores-2026-v19");
     return saved ? JSON.parse(saved) : initialCountries;
   });
   const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("eurovision-scores-2026-v18", JSON.stringify(countries));
+    localStorage.setItem("eurovision-scores-2026-v19", JSON.stringify(countries));
   }, [countries]);
 
   const toggleScore = (targetId, clickedPoints) => {
@@ -52,7 +53,7 @@ export default function EurovisionScoreboard() {
   const resetScores = () => {
     if (window.confirm("Reset all votes?")) {
       setCountries(initialCountries);
-      localStorage.removeItem("eurovision-scores-2026-v18");
+      localStorage.removeItem("eurovision-scores-2026-v19");
     }
   };
 
@@ -66,18 +67,19 @@ export default function EurovisionScoreboard() {
           backgroundColor: "#f8fafc",
           useCORS: true,
           width: 1080,
-          height: 1920
+          height: 1920,
+          logging: false
         });
         const link = document.createElement("a");
         link.href = canvas.toDataURL("image/png");
-        link.download = "My_Eurovision_Stories_Style.png";
+        link.download = "My_Eurovision_Top_Stories.png";
         link.click();
       } catch (e) {
         alert("Error saving image.");
       } finally {
         setIsExporting(false);
       }
-    }, 1000);
+    }, 1200); // Даем больше времени на загрузку всех прокси-изображений
   };
 
   const sorted = [...countries].sort((a, b) => b.score - a.score);
@@ -85,37 +87,31 @@ export default function EurovisionScoreboard() {
   const votesCount = countries.filter((c) => c.score > 0).length;
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#6366f1]/15 via-slate-50 to-[#d8b4fe]/15 text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center">
+    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#6366f1]/15 via-slate-50 to-[#d8b4fe]/15 text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center transition-all">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР ( Stories в стиле Desktop ) */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (Стиль Desktop, но без Backdrop-blur для чистоты) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
-        <div 
-          ref={exportRef} 
-          className="w-[1080px] h-[1920px] bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#6366f1]/10 via-slate-50 to-[#d8b4fe]/10 pt-40 pb-40 px-12 flex flex-col items-center justify-between"
-        >
-          <header className="text-center flex flex-col items-center w-full mb-10 leading-none">
-            <img src={logoUrl} crossOrigin="anonymous" className="h-32 mb-6 object-contain" alt="Logo" />
-            <h1 className="text-8xl font-black text-gray-900 mb-2 tracking-tighter italic uppercase leading-none">Semi-Final 1</h1>
-            <p className="text-gray-500 text-2xl font-bold tracking-[0.3em] uppercase opacity-60 mb-12">12 MAY 2026 // VIENNA</p>
-            <div className="text-[#002FA7] text-7xl font-black uppercase tracking-[0.1em] italic">My Top 10</div>
+        <div ref={exportRef} className="w-[1080px] h-[1920px] bg-slate-50 pt-[180px] pb-[180px] px-14 flex flex-col items-center justify-between">
+          <header className="text-center flex flex-col items-center w-full mb-12">
+            <img src={logoUrl} crossOrigin="anonymous" className="h-32 mb-8 object-contain" alt="" />
+            <h1 className="text-7xl font-black text-gray-900 mb-2 tracking-tighter italic uppercase leading-none">Semi-Final 1</h1>
+            <p className="text-gray-400 text-xl font-bold tracking-[0.4em] uppercase opacity-60 mb-10">12 MAY 2026 // VIENNA</p>
+            <div className="text-[#002FA7] text-6xl font-black uppercase tracking-[0.1em] italic">My Top 10</div>
           </header>
 
-          <div className="flex flex-col gap-4 w-full px-2 flex-grow justify-center">
+          <div className="flex flex-col gap-3 w-full px-2 flex-grow justify-start">
             {sorted.slice(0, 10).map((c, i) => (
-              <div key={c.id} className="bg-white/95 px-10 h-[120px] flex items-center justify-between rounded-[45px] border border-blue-100/50 shadow-sm">
+              <div key={c.id} className="bg-white h-[105px] px-8 flex items-center justify-between rounded-[35px] border border-gray-200">
                 <div className="flex items-center gap-8 h-full leading-none">
-                  <span className="text-4xl font-black text-gray-200 italic w-12 flex items-center justify-center leading-none">{i + 1}</span>
-                  <div className="text-[65px] flex items-center justify-center leading-none -mt-2">{c.flag}</div>
-                  
-                  {/* Добавленное превью видео как на десктопе */}
-                  <img src={c.image} crossOrigin="anonymous" alt="" className="w-32 h-20 rounded-2xl object-cover bg-gray-100 border-2 border-white/50 shadow-sm" />
-
-                  <div className="ml-2 text-left flex flex-col justify-center h-full">
-                    <h2 className="text-[40px] font-black uppercase tracking-tighter leading-tight mb-1 text-gray-900">{c.name}</h2>
-                    <p className="text-gray-400 text-xl italic font-medium leading-none opacity-80">{c.song}</p>
+                  <span className="text-3xl font-black text-gray-200 italic w-10 flex items-center justify-center">{i + 1}</span>
+                  <div className="text-[55px] flex items-center justify-center -mt-1">{c.flag}</div>
+                  <img src={getProxyUrl(c.image)} crossOrigin="anonymous" alt="" className="w-28 h-16 rounded-xl object-cover border border-gray-100" />
+                  <div className="ml-1 text-left flex flex-col justify-center h-full">
+                    <h2 className="text-[34px] font-black uppercase tracking-tighter leading-none mb-1 text-gray-900">{c.name}</h2>
+                    <p className="text-gray-400 text-lg italic font-medium leading-none">{c.song}</p>
                   </div>
                 </div>
-                <div className="text-7xl font-black text-[#002FA7] flex items-center h-full pr-4 tracking-tighter leading-none">{c.score}</div>
+                <div className="text-6xl font-black text-[#002FA7] tracking-tighter">{c.score}</div>
               </div>
             ))}
           </div>
