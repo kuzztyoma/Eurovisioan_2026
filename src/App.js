@@ -27,13 +27,13 @@ const initialCountries = [
 export default function EurovisionScoreboard() {
   const exportRef = useRef(null);
   const [countries, setCountries] = useState(() => {
-    const saved = localStorage.getItem("eurovision-scores-2026-v24");
+    const saved = localStorage.getItem("eurovision-scores-2026-v25");
     return saved ? JSON.parse(saved) : initialCountries;
   });
   const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("eurovision-scores-2026-v24", JSON.stringify(countries));
+    localStorage.setItem("eurovision-scores-2026-v25", JSON.stringify(countries));
   }, [countries]);
 
   const toggleScore = (targetId, clickedPoints) => {
@@ -53,7 +53,7 @@ export default function EurovisionScoreboard() {
   const resetScores = () => {
     if (window.confirm("Reset all votes?")) {
       setCountries(initialCountries);
-      localStorage.removeItem("eurovision-scores-2026-v24");
+      localStorage.removeItem("eurovision-scores-2026-v25");
     }
   };
 
@@ -63,7 +63,7 @@ export default function EurovisionScoreboard() {
     setTimeout(async () => {
       try {
         const canvas = await html2canvas(exportRef.current, {
-          scale: 1.5, // Увеличил качество
+          scale: 1.5,
           backgroundColor: "#f3f4f6",
           useCORS: true,
           width: 1080,
@@ -72,7 +72,7 @@ export default function EurovisionScoreboard() {
         });
         const link = document.createElement("a");
         link.href = canvas.toDataURL("image/png");
-        link.download = "My_Eurovision_Clean_Top.png";
+        link.download = "My_Eurovision_Final_Top.png";
         link.click();
       } catch (e) {
         alert("Error saving image.");
@@ -89,13 +89,15 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#6366f1]/15 via-slate-50 to-[#d8b4fe]/15 text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center transition-all">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР ( Stories: Чистые цвета, без прозрачности и теней ) */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (С новой датой и отступами) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div ref={exportRef} className="w-[1080px] h-[1920px] bg-[#f3f4f6] pt-[200px] pb-[200px] px-14 flex flex-col items-center justify-between">
           <header className="text-center flex flex-col items-center w-full mb-12">
             <img src={logoUrl} crossOrigin="anonymous" className="h-32 mb-8 object-contain" alt="" />
-            <h1 className="text-8xl font-black text-gray-900 mb-2 tracking-tighter italic uppercase leading-none">Semi-Final 1</h1>
-            <p className="text-gray-400 text-2xl font-bold tracking-[0.4em] uppercase opacity-60 mb-10">12 MAY 2026 // VIENNA</p>
+            {/* Увеличен mb-6 для воздуха */}
+            <h1 className="text-7xl font-black text-gray-900 mb-6 tracking-tighter italic uppercase leading-none">Semi-Final 1</h1>
+            {/* Обновленный текст даты и времени */}
+            <p className="text-gray-400 text-xl font-bold tracking-[0.4em] uppercase opacity-60 mb-10">12 MAY 2026, 21:00 CEST</p>
             <div className="text-[#002FA7] text-7xl font-black uppercase tracking-[0.1em] italic">My Top 10</div>
           </header>
 
@@ -139,8 +141,10 @@ export default function EurovisionScoreboard() {
       <div className="w-full max-w-6xl p-4 md:p-8 flex flex-col relative z-10">
         <header className="mb-12 text-center flex flex-col items-center">
           <img src={logoUrl} crossOrigin="anonymous" className="h-20 md:h-28 mb-4 object-contain" alt="Logo" />
-          <h1 className="text-4xl md:text-6xl font-black text-gray-900 mb-1 tracking-tighter italic uppercase font-sans">Semi-Final 1</h1>
-          <p className="text-gray-500 text-sm font-bold tracking-widest uppercase opacity-60">12 MAY 2026, VIENNA</p>
+          {/* Увеличен mb-4 для воздуха */}
+          <h1 className="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tighter italic uppercase font-sans">Semi-Final 1</h1>
+          {/* Обновленный текст даты и времени */}
+          <p className="text-gray-500 text-sm font-bold tracking-widest uppercase opacity-60">12 MAY 2026, 21:00 CEST</p>
         </header>
 
         <div className="flex flex-col gap-5 w-full">
@@ -154,7 +158,6 @@ export default function EurovisionScoreboard() {
                 </div>
               )}
               <motion.div layout className={`group bg-white/50 backdrop-blur-3xl border p-4 md:p-5 md:h-32 flex flex-col md:flex-row items-center md:justify-between shadow-2xl rounded-[38px] gap-5 md:flex-nowrap ${c.score > 0 ? "border-[#002FA7]/30 ring-8 ring-[#002FA7]/5" : "border-white/80"}`}>
-                
                 <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 flex-1 w-full md:w-auto h-full">
                   <div className="flex items-center gap-4 shrink-0 md:w-32">
                     <div className="w-8 text-center text-xl font-bold text-gray-300 italic">{i + 1}</div>
@@ -162,7 +165,6 @@ export default function EurovisionScoreboard() {
                       <img src={c.flag} className="w-12 h-12 object-contain drop-shadow-sm" alt="" />
                     </div>
                   </div>
-
                   <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 flex-1 w-full md:w-auto min-w-0 h-full">
                     <img src={c.image} alt="" className="w-32 md:w-28 h-20 md:h-16 rounded-2xl object-cover bg-gray-100 shadow-md border-2 border-white/50 shrink-0" />
                     <div className="flex flex-col text-center md:text-left flex-1 min-w-0 w-full justify-center">
@@ -172,7 +174,6 @@ export default function EurovisionScoreboard() {
                     </div>
                   </div>
                 </div>
-                
                 <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 shrink-0 w-full md:w-auto">
                   <div className="grid grid-cols-5 gap-1.5 w-full max-w-xs md:w-auto">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 10, 12].map((p) => {
