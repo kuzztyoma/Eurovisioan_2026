@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import html2canvas from "html2canvas";
 
-// Самая стабильная ссылка через прокси для отображения и экспорта
-const logoUrl = "https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png";
+const logoUrl =
+  "https://corsproxy.io/?" +
+  encodeURIComponent(
+    "https://upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.png");
 
 const initialCountries = [
   { id: "md", name: "Moldova", song: "Satoshi — Viva, Moldova", flag: "🇲🇩", image: "https://photos.ebu.ch/media/image?src=thumbs/37207_400_h.jpg&1778481834", score: 0, note: "" },
@@ -101,23 +103,27 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[#f3f4f6] text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (Оптическая центровка) */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР ( Stories Format ) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div 
           ref={exportRef} 
-          className="w-[1080px] h-[1920px] bg-[#f3f4f6] p-12 flex flex-col justify-between items-center"
+          className="w-[1080px] h-[1920px] bg-[#f3f4f6] p-12 flex flex-col items-center"
         >
-          <header className="text-center flex flex-col items-center w-full">
+          <header className="text-center flex flex-col items-center w-full mb-10">
             <img src={logoUrl} crossOrigin="anonymous" className="h-32 mb-6 object-contain" alt="" />
-            <h1 className="text-7xl font-black text-gray-900 mb-2 tracking-tighter italic uppercase">Semi-Final 1</h1>
-            <p className="text-gray-500 text-xl font-bold tracking-[0.3em] uppercase opacity-60">12 MAY 2026 // VIENNA</p>
+            <h1 className="text-7xl font-black text-gray-900 mb-2 tracking-tighter italic uppercase leading-none">Semi-Final 1</h1>
+            <p className="text-gray-500 text-xl font-bold tracking-[0.3em] uppercase opacity-60 mb-8">12 MAY 2026 // VIENNA</p>
+            {/* Добавленная надпись My Top 10 */}
+            <div className="bg-[#002FA7] text-white px-10 py-3 rounded-full text-4xl font-black uppercase tracking-widest italic">
+              My Top 10
+            </div>
           </header>
 
-          <div className="flex flex-col gap-4 w-full px-4">
+          <div className="flex flex-col gap-4 w-full px-4 flex-1">
             {sorted.slice(0, 10).map((c, i) => (
               <div key={c.id} className="bg-white px-8 h-32 flex items-center justify-between rounded-[40px] border border-gray-200">
                 <div className="flex items-center gap-8 h-full">
-                  <span className="text-4xl font-black text-gray-200 italic w-12 flex items-center justify-center">{i + 1}</span>
+                  <span className="text-4xl font-black text-gray-200 italic w-12 flex items-center justify-center leading-none">{i + 1}</span>
                   <div className="text-[72px] flex items-center justify-center leading-none -mt-4">
                     {c.flag}
                   </div>
@@ -126,20 +132,17 @@ export default function EurovisionScoreboard() {
                     <p className="text-gray-400 text-2xl italic font-medium mt-2 leading-none">{c.song}</p>
                   </div>
                 </div>
-                <div className="text-7xl font-black text-[#002FA7] flex items-center h-full pr-4">{c.score}</div>
+                <div className="text-7xl font-black text-[#002FA7] flex items-center h-full pr-4 leading-none">{c.score}</div>
               </div>
             ))}
           </div>
-
-          <footer className="w-full text-center pb-2">
-             <p className="text-gray-400 text-lg font-bold uppercase tracking-[0.4em] opacity-50">
-               Scoreboard by <span className="text-[#002FA7]">Artyom Kuzmenko</span>
-             </p>
-          </footer>
+          
+          {/* Пустой блок для баланса внизу вместо подписи */}
+          <div className="h-20 w-full"></div>
         </div>
       </div>
 
-      {/* 2. ВИДИМАЯ ПАНЕЛЬ */}
+      {/* 2. ВИДИМАЯ ПАНЕЛЬ УПРАВЛЕНИЯ */}
       {!isExporting && (
         <div className="w-full bg-white border-b py-3 px-3 sm:px-6 flex justify-center gap-2 sm:gap-3 sticky top-0 z-50 shadow-sm">
           {votingStarted ? (
@@ -161,11 +164,11 @@ export default function EurovisionScoreboard() {
         </div>
       )}
 
-      {/* 3. ОСНОВНОЙ ИНТЕРФЕЙС (Использует logoUrl) */}
+      {/* 3. ОСНОВНОЙ ИНТЕРФЕЙС */}
       <div className="w-full max-w-5xl p-3 sm:p-4 md:p-8 bg-[#f3f4f6] flex flex-col">
         <header className="mb-6 md:mb-8 text-center flex flex-col items-center">
           <img 
-            src={logoUrl} 
+            src="https://upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.png" 
             crossOrigin="anonymous" 
             className="h-16 sm:h-20 md:h-28 mb-3 object-contain" 
             alt="Eurovision 2026" 
