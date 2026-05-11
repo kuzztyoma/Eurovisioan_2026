@@ -25,13 +25,13 @@ const initialCountries = [
 export default function EurovisionScoreboard() {
   const exportRef = useRef(null);
   const [countries, setCountries] = useState(() => {
-    const saved = localStorage.getItem("eurovision-scores-2026-v10");
+    const saved = localStorage.getItem("eurovision-scores-2026-v11");
     return saved ? JSON.parse(saved) : initialCountries;
   });
   const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("eurovision-scores-2026-v10", JSON.stringify(countries));
+    localStorage.setItem("eurovision-scores-2026-v11", JSON.stringify(countries));
   }, [countries]);
 
   const toggleScore = (targetId, clickedPoints) => {
@@ -51,7 +51,7 @@ export default function EurovisionScoreboard() {
   const resetScores = () => {
     if (window.confirm("Reset all votes?")) {
       setCountries(initialCountries);
-      localStorage.removeItem("eurovision-scores-2026-v10");
+      localStorage.removeItem("eurovision-scores-2026-v11");
     }
   };
 
@@ -117,19 +117,19 @@ export default function EurovisionScoreboard() {
 
       {/* 2. ПАНЕЛЬ УПРАВЛЕНИЯ */}
       {!isExporting && (
-        <div className="w-full bg-white/40 backdrop-blur-xl border-b border-white/60 py-3 px-6 flex justify-center gap-3 sticky top-0 z-50 shadow-sm">
+        <div className="w-full bg-white/60 backdrop-blur-xl border-b border-white/60 py-3 px-6 flex justify-center gap-3 sticky top-0 z-50 shadow-sm">
           {votingStarted ? (
             <>
-              <button onClick={resetScores} className="px-4 py-2 bg-red-50/50 text-red-600 rounded-xl text-sm font-bold border border-red-100 transition-colors">Reset</button>
-              <button onClick={downloadAsImage} disabled={votesCount !== 10} className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${votesCount === 10 ? "bg-[#002FA7] text-white shadow-lg shadow-blue-200" : "bg-gray-100 text-gray-400 cursor-not-allowed"}`}>Download Story</button>
+              <button onClick={resetScores} className="px-4 py-2 bg-red-50/50 text-red-600 rounded-xl text-sm font-bold border border-red-100 transition-colors hover:bg-red-50">Reset</button>
+              <button onClick={downloadAsImage} disabled={votesCount !== 10} className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${votesCount === 10 ? "bg-[#002FA7] text-white shadow-lg shadow-blue-200 scale-105" : "bg-gray-200/50 text-gray-400 cursor-not-allowed"}`}>Download Story</button>
             </>
           ) : (
-            <span className="text-gray-500 py-2 text-sm font-bold italic">Select your top 10 countries</span>
+            <span className="text-gray-500 py-2 text-sm font-bold italic tracking-wide">Select your top 10 countries</span>
           )}
         </div>
       )}
 
-      {/* 3. ОСНОВНОЙ СПИСОК ( Glassmorphism UI ) */}
+      {/* 3. ОСНОВНОЙ СПИСОК ( Исправленные кнопки ) */}
       <div className="w-full max-w-5xl p-4 md:p-8 flex flex-col relative z-10">
         <header className="mb-12 text-center flex flex-col items-center">
           <img src={logoUrl} crossOrigin="anonymous" className="h-20 md:h-28 mb-4 object-contain" alt="" />
@@ -137,7 +137,7 @@ export default function EurovisionScoreboard() {
           <p className="text-gray-500 text-sm font-bold tracking-widest uppercase opacity-60">12 MAY 2026, VIENNA</p>
         </header>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-5">
           {sorted.map((c, i) => (
             <React.Fragment key={c.id}>
               {votingStarted && i === 10 && (
@@ -147,36 +147,50 @@ export default function EurovisionScoreboard() {
                   <div className="flex-1 h-px bg-gray-300/50"></div>
                 </div>
               )}
-              <motion.div layout className={`group bg-white/40 backdrop-blur-2xl border-2 p-3 md:p-5 flex flex-col md:flex-row items-stretch md:items-center justify-between shadow-xl rounded-3xl gap-4 transition-all ${c.score > 0 ? "border-[#002FA7]/40 ring-4 ring-[#002FA7]/5" : "border-white/80"}`}>
+              <motion.div layout className={`group bg-white/50 backdrop-blur-2xl border-2 p-3 md:p-5 flex flex-col md:flex-row items-stretch md:items-center justify-between shadow-xl rounded-[32px] gap-4 transition-all ${c.score > 0 ? "border-[#002FA7]/30 ring-8 ring-[#002FA7]/5" : "border-white/80"}`}>
                 <div className="flex items-center gap-3 md:gap-6">
                   <div className="w-8 text-center text-xl font-bold text-gray-300 italic">{i + 1}</div>
-                  <div className="text-4xl flex items-center justify-center bg-white/50 w-14 h-14 rounded-full shadow-inner border border-white">{c.flag}</div>
-                  <img src={c.image} alt="" className="w-24 h-14 rounded-2xl object-cover bg-gray-100 shadow-sm" />
-                  <div className="flex-1 text-left">
-                    <h2 className="text-lg md:text-xl font-black uppercase tracking-tight leading-none mb-1">{c.name}</h2>
-                    <p className="text-gray-500 text-xs md:text-sm italic opacity-80">{c.song}</p>
-                    <textarea value={c.note || ""} onChange={(e) => updateNote(c.id, e.target.value)} placeholder="Add note..." className="w-full mt-2 p-2 text-[10px] bg-white/30 border border-white/50 rounded-lg text-gray-600 focus:bg-white/60 outline-none resize-none" rows="1" />
+                  <div className="text-4xl flex items-center justify-center bg-white/60 w-14 h-14 rounded-full shadow-inner border border-white/40">{c.flag}</div>
+                  <img src={c.image} alt="" className="w-24 h-14 rounded-2xl object-cover bg-gray-100 shadow-sm border border-white/20" />
+                  <div className="flex-1 text-left min-w-0">
+                    <h2 className="text-lg md:text-xl font-black uppercase tracking-tight leading-none mb-1 truncate">{c.name}</h2>
+                    <p className="text-gray-500 text-xs md:text-sm italic opacity-80 truncate">{c.song}</p>
+                    <textarea value={c.note || ""} onChange={(e) => updateNote(c.id, e.target.value)} placeholder="Add note..." className="w-full mt-2 p-2 text-[10px] bg-white/40 border border-white/60 rounded-lg text-gray-600 focus:bg-white/80 outline-none resize-none placeholder:text-gray-400" rows="1" />
                   </div>
                 </div>
+                
+                {/* Исправленный блок кнопок баллов */}
                 <div className="flex items-center gap-4">
                   <div className="grid grid-cols-5 gap-1.5">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 10, 12].map((p) => {
                       const mine = c.score === p;
                       const taken = countries.some((other) => other.id !== c.id && other.score === p);
                       return (
-                        <button key={p} onClick={() => toggleScore(c.id, p)} className={`h-10 w-10 flex items-center justify-center rounded-xl text-xs font-black transition-all border ${mine ? "bg-[#002FA7] text-white border-transparent scale-110 shadow-lg shadow-blue-200" : taken ? "bg-gray-100/30 text-gray-200 border-transparent" : "bg-white/60 text-gray-500 border-white hover:bg-white"}`}>{p}</button>
+                        <button 
+                          key={p} 
+                          onClick={() => toggleScore(c.id, p)} 
+                          className={`h-10 w-10 flex items-center justify-center rounded-xl text-xs font-black transition-all border ${
+                            mine 
+                              ? "bg-[#002FA7] text-white border-transparent scale-110 shadow-lg shadow-blue-200" 
+                              : taken 
+                                ? "bg-gray-100/40 text-gray-300 border-gray-100/50 cursor-not-allowed" 
+                                : "bg-white/80 text-gray-700 border-slate-200 hover:bg-white hover:border-[#002FA7]/30 hover:text-[#002FA7]"
+                          }`}
+                        >
+                          {p}
+                        </button>
                       );
                     })}
                   </div>
-                  <div className="hidden md:block w-16 text-right text-4xl font-black text-[#002FA7]">{c.score > 0 ? c.score : "-"}</div>
+                  <div className="hidden md:block w-16 text-right text-4xl font-black text-[#002FA7] drop-shadow-sm">{c.score > 0 ? c.score : "-"}</div>
                 </div>
               </motion.div>
             </React.Fragment>
           ))}
         </div>
 
-        <footer className="mt-20 mb-8 text-center text-gray-400 text-[10px] font-bold uppercase tracking-[0.3em] opacity-50">
-          Created by <span className="text-[#002FA7]">Artyom Kuzmenko</span>
+        <footer className="mt-20 mb-8 text-center text-gray-400 text-[10px] font-bold uppercase tracking-[0.3em] opacity-50 relative z-20">
+          Created by <a href="https://www.instagram.com/artkuztom/" target="_blank" rel="noopener noreferrer" className="text-[#002FA7] hover:underline font-bold transition-colors">Artyom Kuzmenko</a>
         </footer>
       </div>
     </div>
