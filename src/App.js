@@ -3,11 +3,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import html2canvas from "html2canvas";
 
-// Прокси для стабильной загрузки всех внешних изображений
 const getProxyUrl = (url) => `https://images.weserv.nl/?url=${encodeURIComponent(url.replace(/^https?:\/\//, ''))}`;
 const logoUrl = "https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png";
 
-const initialCountries = [
+const initialCountriesSF1 = [
   { id: "md", name: "Moldova", song: "Satoshi — Viva, Moldova", flag: "https://www.eurovision.com/static/images/flags/flag_md.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/moldovapng/Moldova-fill_size%3D2560x1600-focal_point%3D1167x399-focal_size%3D482x523-fill_size%3D2560x1600-focal_point%3D1167x399-focal_size%3D482x523.png", score: 0, note: "" },
   { id: "se", name: "Sweden", song: "Felicia — My System", flag: "https://www.eurovision.com/static/images/flags/flag_se.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/felicia_69ac8624368c5_26_lizzsa7jpg/felicia_69ac8624368c5_26_lIzZSa7-fill_size%3D2560x1600-focal_point%3D840x440-focal_size%3D460x535-fill_size%3D2560x1600-focal_point%3D840x440-focal_size%3D460x535.jpg", score: 0, note: "" },
   { id: "hr", name: "Croatia", song: "Lelek — Andromeda", flag: "https://www.eurovision.com/static/images/flags/flag_hr.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/lelek_-croatia_-photo-by-hrt-dario-njavro_-8png/lelek_%20croatia_%20photo%20by%20hrt%20%26%20dario%20njavro_%20%20%288%29-fill_size%3D2560x1600-focal_point%3D1256x584-focal_size%3D188x188-fill_size%3D2560x1600-focal_point%3D1256x584-focal_size%3D188x188.png", score: 0, note: "" },
@@ -25,20 +24,58 @@ const initialCountries = [
   { id: "rs", name: "Serbia", song: "Lavina — Kraj mene", flag: "https://www.eurovision.com/static/images/flags/flag_rs.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/serbia-lavina-photo-5-by-natasa-stamatovicjpg/Serbia%2C%20Lavina%2C%20photo%205%20by%20Nata%C5%A1a%20Stamatovi%C4%87-fill_size%3D2560x1600-focal_point%3D1905x1014-focal_size%3D345x300-fill_size%3D2560x1600-focal_point%3D1905x1014-focal_size%3D345x300.jpg", score: 0, note: "" },
 ];
 
+const initialCountriesSF2 = [
+  { id: "bg", name: "Bulgaria", song: "Bangaranga", flag: "https://www.eurovision.com/static/images/flags/flag_bg.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/bulgariajpg/Bulgaria-fill_size%3D2560x1600-focal_point%3D1288x394-focal_size%3D225x240-fill_size%3D2560x1600-focal_point%3D1288x394-focal_size%3D225x240.jpg", score: 0, note: "" },
+  { id: "az", name: "Azerbaijan", song: "Just Go", flag: "https://www.eurovision.com/static/images/flags/flag_az.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/alif4156-1jpg/ALIF4156%20%281%29-fill_size%3D2560x1600-focal_point%3D1298x447-focal_size%3D224x279-fill_size%3D2560x1600-focal_point%3D1298x447-focal_size%3D224x279.jpg", score: 0, note: "" },
+  { id: "ro", name: "Romania", song: "Choke Me", flag: "https://www.eurovision.com/static/images/flags/flag_ro.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/romaniajpg/Romania-fill_size%3D2560x1600-focal_point%3D1659x838-focal_size%3D348x296-fill_size%3D2560x1600-focal_point%3D1659x838-focal_size%3D348x296.jpg", score: 0, note: "" },
+  { id: "lu", name: "Luxembourg", song: "Mother Nature", flag: "https://www.eurovision.com/static/images/flags/flag_lu.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/luxembourgjpg/Luxembourg-fill_size%3D2560x1600-focal_point%3D1272x852-focal_size%3D445x445-fill_size%3D2560x1600-focal_point%3D1272x852-focal_size%3D445x445.jpg", score: 0, note: "" },
+  { id: "cz", name: "Czechia", song: "Crossroads", flag: "https://www.eurovision.com/static/images/flags/flag_cz.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/daniel-zizka_finals__img7135_dcg99uzjpg/Daniel%20Zizka_finals__IMG7135_dcG99Uz-fill_size%3D2560x1600-focal_point%3D765x673-focal_size%3D418x375-fill_size%3D2560x1600-focal_point%3D765x673-focal_size%3D418x375.jpg", score: 0, note: "" },
+  { id: "am", name: "Armenia", song: "Paloma Rumba", flag: "https://www.eurovision.com/static/images/flags/flag_am.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/armeniajpg/Armenia-fill_size%3D2560x1600-focal_point%3D1383x749-focal_size%3D427x405-fill_size%3D2560x1600-focal_point%3D1383x749-focal_size%3D427x405.jpg", score: 0, note: "" },
+  { id: "ch", name: "Switzerland", song: "Alice", flag: "https://www.eurovision.com/static/images/flags/flag_ch.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/switzerland_edk0ddyjpg/Switzerland_eDk0DdY-fill_size%3D2560x1600-focal_point%3D1219x615-focal_size%3D436x403-fill_size%3D2560x1600-focal_point%3D1219x615-focal_size%3D436x403.jpg", score: 0, note: "" },
+  { id: "cy", name: "Cyprus", song: "Jalla", flag: "https://www.eurovision.com/static/images/flags/flag_cy.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/cyprus_qo5gwlojpg/Cyprus_qO5gWlo-fill_size%3D2560x1600-focal_point%3D880x1054-focal_size%3D629x507-fill_size%3D2560x1600-focal_point%3D880x1054-focal_size%3D629x507.jpg", score: 0, note: "" },
+  { id: "lv", name: "Latvia", song: "Enā", flag: "https://www.eurovision.com/static/images/flags/flag_lv.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/latviajpeg/Latvia-fill_size%3D2560x1600-focal_point%3D1477x710-focal_size%3D392x459-fill_size%3D2560x1600-focal_point%3D1477x710-focal_size%3D392x459.jpeg", score: 0, note: "" },
+  { id: "dk", name: "Denmark", song: "Før vi går hjem", flag: "https://www.eurovision.com/static/images/flags/flag_dk.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/denmark_8rbh8gajpg/Denmark_8Rbh8gA-fill_size%3D2560x1600-focal_point%3D1283x368-focal_size%3D207x218-fill_size%3D2560x1600-focal_point%3D1283x368-focal_size%3D207x218.jpg", score: 0, note: "" },
+  { id: "au", name: "Australia", song: "Eclipse", flag: "https://www.eurovision.com/static/images/flags/flag_au.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/australiajpg/Australia-fill_size%3D2560x1600-focal_point%3D1268x831-focal_size%3D531x582-fill_size%3D2560x1600-focal_point%3D1268x831-focal_size%3D531x582.jpg", score: 0, note: "" },
+  { id: "ua", name: "Ukraine", song: "Ridnym", flag: "https://www.eurovision.com/static/images/flags/flag_ua.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/ukrainejpg/Ukraine-fill_size%3D2560x1600-focal_point%3D1138x849-focal_size%3D674x715-fill_size%3D2560x1600-focal_point%3D1138x849-focal_size%3D674x715.jpg", score: 0, note: "" },
+  { id: "al", name: "Albania", song: "Nân", flag: "https://www.eurovision.com/static/images/flags/flag_al.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/img_6182jpeg/IMG_6182-fill_size%3D2560x1600-focal_point%3D917x593-focal_size%3D491x571-fill_size%3D2560x1600-focal_point%3D917x593-focal_size%3D491x571.jpeg", score: 0, note: "" },
+  { id: "mt", name: "Malta", song: "Bella", flag: "https://www.eurovision.com/static/images/flags/flag_mt.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/maltajpg/Malta-fill_size%3D2560x1600-focal_point%3D1189x630-focal_size%3D317x302-fill_size%3D2560x1600-focal_point%3D1189x630-focal_size%3D317x302.jpg", score: 0, note: "" },
+  { id: "no", name: "Norway", song: "Ya ya ya", flag: "https://www.eurovision.com/static/images/flags/flag_no.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/norway_u2zlerkjpg/Norway_U2ZlERK-fill_size%3D2560x1600-focal_point%3D1090x1038-focal_size%3D739x691-fill_size%3D2560x1600-focal_point%3D1090x1038-focal_size%3D739x691.jpg", score: 0, note: "" },
+];
+
 export default function EurovisionScoreboard() {
   const exportRef = useRef(null);
-  const [countries, setCountries] = useState(() => {
-    const saved = localStorage.getItem("eurovision-scores-2026-v25");
-    return saved ? JSON.parse(saved) : initialCountries;
+  // Состояние активного полуфинала (SF2 по умолчанию)
+  const [activeSemi, setActiveSemi] = useState("SF2");
+  
+  // Состояние для первого полуфинала
+  const [countriesSF1, setCountriesSF1] = useState(() => {
+    const saved = localStorage.getItem("eurovision-scores-2026-sf1-v2");
+    return saved ? JSON.parse(saved) : initialCountriesSF1;
   });
+
+  // Состояние для второго полуфинала
+  const [countriesSF2, setCountriesSF2] = useState(() => {
+    const saved = localStorage.getItem("eurovision-scores-2026-sf2-v2");
+    return saved ? JSON.parse(saved) : initialCountriesSF2;
+  });
+
   const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("eurovision-scores-2026-v25", JSON.stringify(countries));
-  }, [countries]);
+    localStorage.setItem("eurovision-scores-2026-sf1-v2", JSON.stringify(countriesSF1));
+  }, [countriesSF1]);
+
+  useEffect(() => {
+    localStorage.setItem("eurovision-scores-2026-sf2-v2", JSON.stringify(countriesSF2));
+  }, [countriesSF2]);
+
+  const currentCountries = activeSemi === "SF1" ? countriesSF1 : countriesSF2;
+  const setCurrentCountries = activeSemi === "SF1" ? setCountriesSF1 : setCountriesSF2;
+  const semiTitle = activeSemi === "SF1" ? "Semi-Final 1" : "Semi-Final 2";
+  const semiDate = activeSemi === "SF1" ? "12 MAY 2026, 21:00 CEST" : "14 MAY 2026, 21:00 CEST";
 
   const toggleScore = (targetId, clickedPoints) => {
-    setCountries((prev) =>
+    setCurrentCountries((prev) =>
       prev.map((c) => {
         if (c.id === targetId) return { ...c, score: c.score === clickedPoints ? 0 : clickedPoints };
         if (c.score === clickedPoints) return { ...c, score: 0 };
@@ -48,13 +85,14 @@ export default function EurovisionScoreboard() {
   };
 
   const updateNote = (id, text) => {
-    setCountries((prev) => prev.map((c) => (c.id === id ? { ...c, note: text } : c)));
+    setCurrentCountries((prev) => prev.map((c) => (c.id === id ? { ...c, note: text } : c)));
   };
 
   const resetScores = () => {
-    if (window.confirm("Reset all votes?")) {
-      setCountries(initialCountries);
-      localStorage.removeItem("eurovision-scores-2026-v25");
+    if (window.confirm(`Reset all votes for ${semiTitle}?`)) {
+      const initial = activeSemi === "SF1" ? initialCountriesSF1 : initialCountriesSF2;
+      setCurrentCountries(initial);
+      localStorage.removeItem(activeSemi === "SF1" ? "eurovision-scores-2026-sf1-v2" : "eurovision-scores-2026-sf2-v2");
     }
   };
 
@@ -64,16 +102,11 @@ export default function EurovisionScoreboard() {
     setTimeout(async () => {
       try {
         const canvas = await html2canvas(exportRef.current, {
-          scale: 1.5,
-          backgroundColor: "#f3f4f6",
-          useCORS: true,
-          width: 1080,
-          height: 1920,
-          logging: false
+          scale: 1.5, backgroundColor: "#f3f4f6", useCORS: true, width: 1080, height: 1920, logging: false
         });
         const link = document.createElement("a");
         link.href = canvas.toDataURL("image/png");
-        link.download = "My_Eurovision_Final_Top.png";
+        link.download = `My_Eurovision_${activeSemi}_Top.png`;
         link.click();
       } catch (e) {
         alert("Error saving image.");
@@ -83,22 +116,20 @@ export default function EurovisionScoreboard() {
     }, 1500); 
   };
 
-  const sorted = [...countries].sort((a, b) => b.score - a.score);
-  const votingStarted = countries.some((c) => c.score > 0);
-  const votesCount = countries.filter((c) => c.score > 0).length;
+  const sorted = [...currentCountries].sort((a, b) => b.score - a.score);
+  const votingStarted = currentCountries.some((c) => c.score > 0);
+  const votesCount = currentCountries.filter((c) => c.score > 0).length;
 
   return (
     <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#6366f1]/15 via-slate-50 to-[#d8b4fe]/15 text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center transition-all">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (С новой датой и отступами) */}
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div ref={exportRef} className="w-[1080px] h-[1920px] bg-[#f3f4f6] pt-[200px] pb-[200px] px-14 flex flex-col items-center justify-between">
           <header className="text-center flex flex-col items-center w-full mb-12">
             <img src={logoUrl} crossOrigin="anonymous" className="h-32 mb-8 object-contain" alt="" />
-            {/* Увеличен mb-6 для воздуха */}
-            <h1 className="text-7xl font-black text-gray-900 mb-6 tracking-tighter italic uppercase leading-none">Semi-Final 1</h1>
-            {/* Обновленный текст даты и времени */}
-            <p className="text-gray-400 text-xl font-bold tracking-[0.4em] uppercase opacity-60 mb-10">12 MAY 2026, 21:00 CEST</p>
+            <h1 className="text-7xl font-black text-gray-900 mb-6 tracking-tighter italic uppercase leading-none">{semiTitle}</h1>
+            <p className="text-gray-400 text-xl font-bold tracking-[0.4em] uppercase opacity-60 mb-10">{semiDate}</p>
             <div className="text-[#002FA7] text-7xl font-black uppercase tracking-[0.1em] italic">My Top 10</div>
           </header>
 
@@ -124,17 +155,23 @@ export default function EurovisionScoreboard() {
         </div>
       </div>
 
-      {/* 2. ПАНЕЛЬ УПРАВЛЕНИЯ */}
+      {/* 2. ПАНЕЛЬ УПРАВЛЕНИЯ + ПЕРЕКЛЮЧАТЕЛЬ */}
       {!isExporting && (
-        <div className="w-full bg-white/60 backdrop-blur-xl border-b border-white/60 py-3 px-6 flex justify-center gap-3 sticky top-0 z-50 shadow-sm">
-          {votingStarted ? (
-            <>
-              <button onClick={resetScores} className="px-4 py-2 bg-red-50/50 text-red-600 rounded-xl text-sm font-bold border border-red-100 transition-colors">Reset</button>
-              <button onClick={downloadAsImage} disabled={votesCount !== 10} className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${votesCount === 10 ? "bg-[#002FA7] text-white shadow-lg shadow-blue-200 scale-105" : "bg-gray-200/50 text-gray-400 cursor-not-allowed"}`}>Download Story Image</button>
-            </>
-          ) : (
-            <span className="text-gray-500 py-2 text-sm font-bold italic tracking-wide">Select your top 10 countries</span>
-          )}
+        <div className="w-full bg-white/60 backdrop-blur-xl border-b border-white/60 flex flex-col items-center sticky top-0 z-50 shadow-sm">
+          <div className="flex justify-center gap-6 p-3 border-b border-gray-100 w-full">
+            <button onClick={() => setActiveSemi("SF1")} className={`text-sm font-black uppercase tracking-widest pb-1 transition-all border-b-2 ${activeSemi === "SF1" ? "text-[#002FA7] border-[#002FA7]" : "text-gray-400 border-transparent"}`}>Semi-Final 1</button>
+            <button onClick={() => setActiveSemi("SF2")} className={`text-sm font-black uppercase tracking-widest pb-1 transition-all border-b-2 ${activeSemi === "SF2" ? "text-[#002FA7] border-[#002FA7]" : "text-gray-400 border-transparent"}`}>Semi-Final 2</button>
+          </div>
+          <div className="py-3 px-6 flex justify-center gap-3 w-full">
+            {votingStarted ? (
+              <>
+                <button onClick={resetScores} className="px-4 py-2 bg-red-50/50 text-red-600 rounded-xl text-sm font-bold border border-red-100 transition-colors">Reset</button>
+                <button onClick={downloadAsImage} disabled={votesCount !== 10} className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${votesCount === 10 ? "bg-[#002FA7] text-white shadow-lg shadow-blue-200 scale-105" : "bg-gray-200/50 text-gray-400 cursor-not-allowed"}`}>Download Story Image</button>
+              </>
+            ) : (
+              <span className="text-gray-500 py-2 text-sm font-bold italic tracking-wide">Select your top 10 for {semiTitle}</span>
+            )}
+          </div>
         </div>
       )}
 
@@ -142,10 +179,8 @@ export default function EurovisionScoreboard() {
       <div className="w-full max-w-6xl p-4 md:p-8 flex flex-col relative z-10">
         <header className="mb-12 text-center flex flex-col items-center">
           <img src={logoUrl} crossOrigin="anonymous" className="h-20 md:h-28 mb-4 object-contain" alt="Logo" />
-          {/* Увеличен mb-4 для воздуха */}
-          <h1 className="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tighter italic uppercase font-sans">Semi-Final 1</h1>
-          {/* Обновленный текст даты и времени */}
-          <p className="text-gray-500 text-sm font-bold tracking-widest uppercase opacity-60">12 MAY 2026, 21:00 CEST</p>
+          <h1 className="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tighter italic uppercase font-sans">{semiTitle}</h1>
+          <p className="text-gray-500 text-sm font-bold tracking-widest uppercase opacity-60">{semiDate}</p>
         </header>
 
         <div className="flex flex-col gap-5 w-full">
@@ -179,7 +214,7 @@ export default function EurovisionScoreboard() {
                   <div className="grid grid-cols-5 gap-1.5 w-full max-w-xs md:w-auto">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 10, 12].map((p) => {
                       const mine = c.score === p;
-                      const taken = countries.some((other) => other.id !== c.id && other.score === p);
+                      const taken = currentCountries.some((other) => other.id !== c.id && other.score === p);
                       return (
                         <button key={p} onClick={() => toggleScore(c.id, p)} className={`h-10 w-full md:w-10 flex items-center justify-center rounded-xl text-xs font-black transition-all border ${mine ? "bg-[#002FA7] text-white border-transparent scale-110 shadow-lg shadow-blue-200" : taken ? "bg-gray-100/40 text-gray-300 border-gray-100/50 cursor-not-allowed" : "bg-white/80 text-gray-700 border-slate-200 hover:bg-white hover:border-[#002FA7]/30"}`}>{p}</button>
                       );
