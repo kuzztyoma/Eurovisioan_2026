@@ -25,35 +25,32 @@ const initialCountriesSF1 = [
 ];
 
 const initialCountriesSF2 = [
-  { id: "bg", name: "Bulgaria", song: "Bangaranga", flag: "https://www.eurovision.com/static/images/flags/flag_bg.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/bulgariajpg/Bulgaria-fill_size%3D2560x1600-focal_point%3D1288x394-focal_size%3D225x240-fill_size%3D2560x1600-focal_point%3D1288x394-focal_size%3D225x240.jpg", score: 0, note: "" },
-  { id: "az", name: "Azerbaijan", song: "Just Go", flag: "https://www.eurovision.com/static/images/flags/flag_az.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/alif4156-1jpg/ALIF4156%20%281%29-fill_size%3D2560x1600-focal_point%3D1298x447-focal_size%3D224x279-fill_size%3D2560x1600-focal_point%3D1298x447-focal_size%3D224x279.jpg", score: 0, note: "" },
-  { id: "ro", name: "Romania", song: "Choke Me", flag: "https://www.eurovision.com/static/images/flags/flag_ro.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/romaniajpg/Romania-fill_size%3D2560x1600-focal_point%3D1659x838-focal_size%3D348x296-fill_size%3D2560x1600-focal_point%3D1659x838-focal_size%3D348x296.jpg", score: 0, note: "" },
-  { id: "lu", name: "Luxembourg", song: "Mother Nature", flag: "https://www.eurovision.com/static/images/flags/flag_lu.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/luxembourgjpg/Luxembourg-fill_size%3D2560x1600-focal_point%3D1272x852-focal_size%3D445x445-fill_size%3D2560x1600-focal_point%3D1272x852-focal_size%3D445x445.jpg", score: 0, note: "" },
-  { id: "cz", name: "Czechia", song: "Crossroads", flag: "https://www.eurovision.com/static/images/flags/flag_cz.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/daniel-zizka_finals__img7135_dcg99uzjpg/Daniel%20Zizka_finals__IMG7135_dcG99Uz-fill_size%3D2560x1600-focal_point%3D765x673-focal_size%3D418x375-fill_size%3D2560x1600-focal_point%3D765x673-focal_size%3D418x375.jpg", score: 0, note: "" },
-  { id: "am", name: "Armenia", song: "Paloma Rumba", flag: "https://www.eurovision.com/static/images/flags/flag_am.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/armeniajpg/Armenia-fill_size%3D2560x1600-focal_point%3D1383x749-focal_size%3D427x405-fill_size%3D2560x1600-focal_point%3D1383x749-focal_size%3D427x405.jpg", score: 0, note: "" },
-  { id: "ch", name: "Switzerland", song: "Alice", flag: "https://www.eurovision.com/static/images/flags/flag_ch.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/switzerland_edk0ddyjpg/Switzerland_eDk0DdY-fill_size%3D2560x1600-focal_point%3D1219x615-focal_size%3D436x403-fill_size%3D2560x1600-focal_point%3D1219x615-focal_size%3D436x403.jpg", score: 0, note: "" },
-  { id: "cy", name: "Cyprus", song: "Jalla", flag: "https://www.eurovision.com/static/images/flags/flag_cy.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/cyprus_qo5gwlojpg/Cyprus_qO5gWlo-fill_size%3D2560x1600-focal_point%3D880x1054-focal_size%3D629x507-fill_size%3D2560x1600-focal_point%3D880x1054-focal_size%3D629x507.jpg", score: 0, note: "" },
-  { id: "lv", name: "Latvia", song: "Enā", flag: "https://www.eurovision.com/static/images/flags/flag_lv.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/latviajpeg/Latvia-fill_size%3D2560x1600-focal_point%3D1477x710-focal_size%3D392x459-fill_size%3D2560x1600-focal_point%3D1477x710-focal_size%3D392x459.jpeg", score: 0, note: "" },
-  { id: "dk", name: "Denmark", song: "Før vi går hjem", flag: "https://www.eurovision.com/static/images/flags/flag_dk.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/denmark_8rbh8gajpg/Denmark_8Rbh8gA-fill_size%3D2560x1600-focal_point%3D1283x368-focal_size%3D207x218-fill_size%3D2560x1600-focal_point%3D1283x368-focal_size%3D207x218.jpg", score: 0, note: "" },
-  { id: "au", name: "Australia", song: "Eclipse", flag: "https://www.eurovision.com/static/images/flags/flag_au.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/australiajpg/Australia-fill_size%3D2560x1600-focal_point%3D1268x831-focal_size%3D531x582-fill_size%3D2560x1600-focal_point%3D1268x831-focal_size%3D531x582.jpg", score: 0, note: "" },
-  { id: "ua", name: "Ukraine", song: "Ridnym", flag: "https://www.eurovision.com/static/images/flags/flag_ua.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/ukrainejpg/Ukraine-fill_size%3D2560x1600-focal_point%3D1138x849-focal_size%3D674x715-fill_size%3D2560x1600-focal_point%3D1138x849-focal_size%3D674x715.jpg", score: 0, note: "" },
-  { id: "al", name: "Albania", song: "Nân", flag: "https://www.eurovision.com/static/images/flags/flag_al.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/img_6182jpeg/IMG_6182-fill_size%3D2560x1600-focal_point%3D917x593-focal_size%3D491x571-fill_size%3D2560x1600-focal_point%3D917x593-focal_size%3D491x571.jpeg", score: 0, note: "" },
-  { id: "mt", name: "Malta", song: "Bella", flag: "https://www.eurovision.com/static/images/flags/flag_mt.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/maltajpg/Malta-fill_size%3D2560x1600-focal_point%3D1189x630-focal_size%3D317x302-fill_size%3D2560x1600-focal_point%3D1189x630-focal_size%3D317x302.jpg", score: 0, note: "" },
-  { id: "no", name: "Norway", song: "Ya ya ya", flag: "https://www.eurovision.com/static/images/flags/flag_no.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/norway_u2zlerkjpg/Norway_U2ZlERK-fill_size%3D2560x1600-focal_point%3D1090x1038-focal_size%3D739x691-fill_size%3D2560x1600-focal_point%3D1090x1038-focal_size%3D739x691.jpg", score: 0, note: "" },
+  { id: "bg", name: "Bulgaria", song: "DARA — Bangaranga", flag: "https://www.eurovision.com/static/images/flags/flag_bg.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/bulgariajpg/Bulgaria-fill_size%3D2560x1600-focal_point%3D1288x394-focal_size%3D225x240-fill_size%3D2560x1600-focal_point%3D1288x394-focal_size%3D225x240.jpg", score: 0, note: "" },
+  { id: "az", name: "Azerbaijan", song: "Jiva — Just Go", flag: "https://www.eurovision.com/static/images/flags/flag_az.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/alif4156-1jpg/ALIF4156%20%281%29-fill_size%3D2560x1600-focal_point%3D1298x447-focal_size%3D224x279-fill_size%3D2560x1600-focal_point%3D1298x447-focal_size%3D224x279.jpg", score: 0, note: "" },
+  { id: "ro", name: "Romania", song: "Alexandra Căpitănescu — Choke Me", flag: "https://www.eurovision.com/static/images/flags/flag_ro.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/romaniajpg/Romania-fill_size%3D2560x1600-focal_point%3D1659x838-focal_size%3D348x296-fill_size%3D2560x1600-focal_point%3D1659x838-focal_size%3D348x296.jpg", score: 0, note: "" },
+  { id: "lu", name: "Luxembourg", song: "Eva Marija — Mother Nature", flag: "https://www.eurovision.com/static/images/flags/flag_lu.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/luxembourgjpg/Luxembourg-fill_size%3D2560x1600-focal_point%3D1272x852-focal_size%3D445x445-fill_size%3D2560x1600-focal_point%3D1272x852-focal_size%3D445x445.jpg", score: 0, note: "" },
+  { id: "cz", name: "Czechia", song: "Daniel Žižka — Crossroads", flag: "https://www.eurovision.com/static/images/flags/flag_cz.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/daniel-zizka_finals__img7135_dcg99uzjpg/Daniel%20Zizka_finals__IMG7135_dcG99Uz-fill_size%3D2560x1600-focal_point%3D765x673-focal_size%3D418x375-fill_size%3D2560x1600-focal_point%3D765x673-focal_size%3D418x375.jpg", score: 0, note: "" },
+  { id: "am", name: "Armenia", song: "SIMÓN — Paloma Rumba", flag: "https://www.eurovision.com/static/images/flags/flag_am.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/armeniajpg/Armenia-fill_size%3D2560x1600-focal_point%3D1383x749-focal_size%3D427x405-fill_size%3D2560x1600-focal_point%3D1383x749-focal_size%3D427x405.jpg", score: 0, note: "" },
+  { id: "ch", name: "Switzerland", song: "Veronica Fusaro — Alice", flag: "https://www.eurovision.com/static/images/flags/flag_ch.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/switzerland_edk0ddyjpg/Switzerland_eDk0DdY-fill_size%3D2560x1600-focal_point%3D1219x615-focal_size%3D436x403-fill_size%3D2560x1600-focal_point%3D1219x615-focal_size%3D436x403.jpg", score: 0, note: "" },
+  { id: "cy", name: "Cyprus", song: "Antigoni — Jalla", flag: "https://www.eurovision.com/static/images/flags/flag_cy.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/cyprus_qo5gwlojpg/Cyprus_qO5gWlo-fill_size%3D2560x1600-focal_point%3D880x1054-focal_size%3D629x507-fill_size%3D2560x1600-focal_point%3D880x1054-focal_size%3D629x507.jpg", score: 0, note: "" },
+  { id: "lv", name: "Latvia", song: "Atvara — Enā", flag: "https://www.eurovision.com/static/images/flags/flag_lv.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/latviajpeg/Latvia-fill_size%3D2560x1600-focal_point%3D1477x710-focal_size%3D392x459-fill_size%3D2560x1600-focal_point%3D1477x710-focal_size%3D392x459.jpeg", score: 0, note: "" },
+  { id: "dk", name: "Denmark", song: "Søren Torpegaard Lund — Før vi går hjem", flag: "https://www.eurovision.com/static/images/flags/flag_dk.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/denmark_8rbh8gajpg/Denmark_8Rbh8gA-fill_size%3D2560x1600-focal_point%3D1283x368-focal_size%3D207x218-fill_size%3D2560x1600-focal_point%3D1283x368-focal_size%3D207x218.jpg", score: 0, note: "" },
+  { id: "au", name: "Australia", song: "Delta Goodrem — Eclipse", flag: "https://www.eurovision.com/static/images/flags/flag_au.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/australiajpg/Australia-fill_size%3D2560x1600-focal_point%3D1268x831-focal_size%3D531x582-fill_size%3D2560x1600-focal_point%3D1268x831-focal_size%3D531x582.jpg", score: 0, note: "" },
+  { id: "ua", name: "Ukraine", song: "Leléka — Ridnym", flag: "https://www.eurovision.com/static/images/flags/flag_ua.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/ukrainejpg/Ukraine-fill_size%3D2560x1600-focal_point%3D1138x849-focal_size%3D674x715-fill_size%3D2560x1600-focal_point%3D1138x849-focal_size%3D674x715.jpg", score: 0, note: "" },
+  { id: "al", name: "Albania", song: "Alis — Nân", flag: "https://www.eurovision.com/static/images/flags/flag_al.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/img_6182jpeg/IMG_6182-fill_size%3D2560x1600-focal_point%3D917x593-focal_size%3D491x571-fill_size%3D2560x1600-focal_point%3D917x593-focal_size%3D491x571.jpeg", score: 0, note: "" },
+  { id: "mt", name: "Malta", song: "Aidan — Bella", flag: "https://www.eurovision.com/static/images/flags/flag_mt.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/maltajpg/Malta-fill_size%3D2560x1600-focal_point%3D1189x630-focal_size%3D317x302-fill_size%3D2560x1600-focal_point%3D1189x630-focal_size%3D317x302.jpg", score: 0, note: "" },
+  { id: "no", name: "Norway", song: "Jonas Lovv — Ya ya ya", flag: "https://www.eurovision.com/static/images/flags/flag_no.svg", image: "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/norway_u2zlerkjpg/Norway_U2ZlERK-fill_size%3D2560x1600-focal_point%3D1090x1038-focal_size%3D739x691-fill_size%3D2560x1600-focal_point%3D1090x1038-focal_size%3D739x691.jpg", score: 0, note: "" },
 ];
 
 export default function EurovisionScoreboard() {
   const exportRef = useRef(null);
-  // Состояние активного полуфинала (SF2 по умолчанию)
   const [activeSemi, setActiveSemi] = useState("SF2");
   
-  // Состояние для первого полуфинала
   const [countriesSF1, setCountriesSF1] = useState(() => {
     const saved = localStorage.getItem("eurovision-scores-2026-sf1-v2");
     return saved ? JSON.parse(saved) : initialCountriesSF1;
   });
 
-  // Состояние для второго полуфинала
   const [countriesSF2, setCountriesSF2] = useState(() => {
     const saved = localStorage.getItem("eurovision-scores-2026-sf2-v2");
     return saved ? JSON.parse(saved) : initialCountriesSF2;
@@ -123,7 +120,6 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#6366f1]/15 via-slate-50 to-[#d8b4fe]/15 text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center transition-all">
       
-      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div ref={exportRef} className="w-[1080px] h-[1920px] bg-[#f3f4f6] pt-[200px] pb-[200px] px-14 flex flex-col items-center justify-between">
           <header className="text-center flex flex-col items-center w-full mb-12">
@@ -155,7 +151,6 @@ export default function EurovisionScoreboard() {
         </div>
       </div>
 
-      {/* 2. ПАНЕЛЬ УПРАВЛЕНИЯ + ПЕРЕКЛЮЧАТЕЛЬ */}
       {!isExporting && (
         <div className="w-full bg-white/60 backdrop-blur-xl border-b border-white/60 flex flex-col items-center sticky top-0 z-50 shadow-sm">
           <div className="flex justify-center gap-6 p-3 border-b border-gray-100 w-full">
@@ -175,7 +170,6 @@ export default function EurovisionScoreboard() {
         </div>
       )}
 
-      {/* 3. ОСНОВНОЙ СПИСОК UI */}
       <div className="w-full max-w-6xl p-4 md:p-8 flex flex-col relative z-10">
         <header className="mb-12 text-center flex flex-col items-center">
           <img src={logoUrl} crossOrigin="anonymous" className="h-20 md:h-28 mb-4 object-contain" alt="Logo" />
