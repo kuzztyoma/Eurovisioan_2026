@@ -120,6 +120,7 @@ export default function EurovisionScoreboard() {
   return (
     <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#6366f1]/15 via-slate-50 to-[#d8b4fe]/15 text-gray-900 font-sans flex flex-col items-center overflow-x-hidden relative text-center transition-all">
       
+      {/* 1. ЭКСПОРТНЫЙ КОНТЕЙНЕР (С ПРАВКОЙ ЦЕНТРИРОВАНИЯ БАЛЛОВ) */}
       <div style={{ position: 'absolute', left: '-5000px', top: 0 }}>
         <div ref={exportRef} className="w-[1080px] h-[1920px] bg-[#f3f4f6] pt-[200px] pb-[200px] px-14 flex flex-col items-center justify-between">
           <header className="text-center flex flex-col items-center w-full mb-12">
@@ -143,9 +144,10 @@ export default function EurovisionScoreboard() {
                     <p className="text-gray-400 text-lg italic font-medium leading-none">{c.song}</p>
                   </div>
                 </div>
-              <div className="text-6xl font-black text-[#002FA7] tracking-tighter flex items-center h-full pt-2">
-  {c.score}
-</div>
+                {/* ИСПРАВЛЕННЫЙ БЛОК БАЛЛОВ С pb-5 ДЛЯ ОПТИЧЕСКОГО ЦЕНТРИРОВАНИЯ */}
+                <div className="text-6xl font-black text-[#002FA7] tracking-tighter h-full flex items-center pb-5">
+                  {c.score}
+                </div>
               </div>
             ))}
           </div>
