@@ -143,7 +143,9 @@ export default function EurovisionScoreboard() {
                     <p className="text-gray-400 text-lg italic font-medium leading-none">{c.song}</p>
                   </div>
                 </div>
-                <div className="text-6xl font-black text-[#002FA7] tracking-tighter leading-none">{c.score}</div>
+              <div className="text-6xl font-black text-[#002FA7] tracking-tighter flex items-center h-full pt-2">
+  {c.score}
+</div>
               </div>
             ))}
           </div>
