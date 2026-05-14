@@ -1,46 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
+import "./styles.css";
+import App from "./App";
 
-    <meta name="theme-color" content="#f3f4f6" />
+const rootElement = document.getElementById("root");
+const root = createRoot(rootElement);
 
-    <meta
-      name="description"
-      content="Eurovision 2026 personal scoreboard"
-    />
-
-    <title>Eurovision 2026 Scoreboard</title>
-<script src="https://cdn.tailwindcss.com"></script>
-    <!-- ВАЖНО: это подключает Tailwind-стили -->
-
-
-    <!-- Небольшая страховка для нормального отображения -->
-    <style>
-      html,
-      body,
-      #root {
-        min-height: 100%;
-        margin: 0;
-      }
-
-      body {
-        background: #f3f4f6;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-    </style>
-  </head>
-
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-  </body>
-</html>
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
