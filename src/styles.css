@@ -58,6 +58,7 @@ button:disabled {
 .tabs {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 36px;
   width: 100%;
   padding: 12px;
