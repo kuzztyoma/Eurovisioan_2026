@@ -1067,3 +1067,8 @@ button:disabled {
     0 0 32px rgba(0, 194, 255, 0.45) !important;
   filter: none !important;
 }
+/* Hide Bingo side button when Bingo page is open */
+
+.bingo-launcher.active {
+  display: none !important;
+}
