@@ -11,6 +11,9 @@ const getProxyUrl = (url) =>
 const logoUrl =
   "https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/de/thumb/1/10/Eurovision_Song_Contest_2026_Logo.svg/1280px-Eurovision_Song_Contest_2026_Logo.svg.png";
 
+const finalLogoUrl =
+  "https://storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/frame-2147206933png/Frame%202147206933-width%3D600.png";
+
 const initialCountriesSF1 = [
   {
     id: "md",
@@ -448,7 +451,7 @@ export default function EurovisionScoreboard() {
   const [isExporting, setIsExporting] = useState(false);
 
   const [countriesFinal, setCountriesFinal] = useState(() => {
-    const saved = localStorage.getItem("eurovision-scores-2026-final-v2");
+    const saved = localStorage.getItem("eurovision-scores-2026-final-v3");
     return saved ? JSON.parse(saved) : initialCountriesFinal;
   });
 
@@ -464,7 +467,7 @@ export default function EurovisionScoreboard() {
 
   useEffect(() => {
     localStorage.setItem(
-      "eurovision-scores-2026-final-v2",
+      "eurovision-scores-2026-final-v3",
       JSON.stringify(countriesFinal)
     );
   }, [countriesFinal]);
@@ -551,7 +554,7 @@ export default function EurovisionScoreboard() {
 
       const storageKey =
         activeSemi === "FINAL"
-          ? "eurovision-scores-2026-final-v2"
+          ? "eurovision-scores-2026-final-v3"
           : activeSemi === "SF1"
           ? "eurovision-scores-2026-sf1-v3"
           : "eurovision-scores-2026-sf2-v3";
@@ -589,12 +592,19 @@ export default function EurovisionScoreboard() {
     }, 600);
   };
 
+  const currentLogo = activeSemi === "FINAL" ? finalLogoUrl : logoUrl;
+
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${activeSemi === "FINAL" ? "final-theme" : ""}`}>
       <div className="export-hidden">
-        <div ref={exportRef} className="story-export">
+        <div
+          ref={exportRef}
+          className={`story-export ${
+            activeSemi === "FINAL" ? "story-final-theme" : ""
+          }`}
+        >
           <header className="story-header">
-            <img src={logoUrl} crossOrigin="anonymous" alt="" />
+            <img src={currentLogo} crossOrigin="anonymous" alt="Eurovision 2026" />
             <h1>{semiTitle}</h1>
             <p>{semiDate}</p>
             <div>My Top 10</div>
@@ -684,7 +694,7 @@ export default function EurovisionScoreboard() {
 
       <main className="page">
         <header className="hero">
-          <img src={logoUrl} crossOrigin="anonymous" alt="Eurovision 2026" />
+          <img src={currentLogo} crossOrigin="anonymous" alt="Eurovision 2026" />
           <h1>{semiTitle}</h1>
           <p>{semiDate}</p>
         </header>
