@@ -1014,3 +1014,44 @@ button:disabled {
     opacity: 0.34;
   }
 }
+/* FIX GRAND FINAL LOGO */
+
+.final-theme .hero > img,
+.story-final-theme .story-header > img {
+  display: none;
+}
+
+.final-theme .hero::after {
+  content: "";
+  display: block;
+  order: -1;
+  width: min(430px, 82vw);
+  height: 128px;
+  margin: 0 auto 18px;
+  background-image: url("https://images.weserv.nl/?url=storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/frame-2147206933png/Frame%202147206933-width%3D600.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  filter: drop-shadow(0 0 26px rgba(255, 255, 255, 0.22));
+}
+
+.story-final-theme .story-header::before {
+  content: "";
+  display: block;
+  width: 520px;
+  height: 150px;
+  margin: 0 auto 32px;
+  background-image: url("https://images.weserv.nl/?url=storage.googleapis.com/eurovision-com.appspot.com/renditions/public/cms/frame-2147206933png/Frame%202147206933-width%3D600.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.22));
+}
+
+@media (max-width: 760px) {
+  .final-theme .hero::after {
+    width: min(320px, 86vw);
+    height: 96px;
+    margin-bottom: 14px;
+  }
+}
