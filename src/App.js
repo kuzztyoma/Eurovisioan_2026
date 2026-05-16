@@ -48,7 +48,7 @@ const bingoSquares = [
   { id: "tempo-change", text: "Sudden tempo change" },
   { id: "neighbor-12", text: "A country gives 12 points to a neighbour" },
   { id: "free", text: "FREE SPACE", free: true },
-  { id: "san-marino-italy", text: "San Marino gives 12 to Italy — or the other way round" },
+  { id: "wind-machine", text: "Wind machine goes into overdrive" },
   { id: "weird-instrument", text: "Weird instrument" },
 
   { id: "violin", text: "Violin in the performance" },
